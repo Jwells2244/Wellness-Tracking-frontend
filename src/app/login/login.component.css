@@ -1,0 +1,88 @@
+/* login.component.css */
+
+/* Styling for the container */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Styling for the form container */
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Toggle button styles */
+.toggle-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.toggle-button {
+  padding: 10px 20px;
+  background-color: #17a2b8; /* Teal color */
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-button:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-button:active {
+  background-color: #0f6f80;
+  transform: translateY(1px);
+}
+
+/* Styling for input fields */
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button styling */
+.button {
+  width: 100%;
+  padding: 12px;
+  background-color: #28a745; /* Green color */
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background-color: #218838;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}

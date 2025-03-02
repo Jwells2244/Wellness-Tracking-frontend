@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="form-container">
+    <h2>Login</h2>
+    <div class="toggle-container">
+      <button type="button" (click)="toggleLoginMode()" class="toggle-button">
+        Switch to {{ isCoach ? 'Client' : 'Trainer' }} Login
+      </button>
+    </div>
+
+    <form>
+      <input class="input-field" type="email" placeholder="Email" required />
+      <input class="input-field" type="password" placeholder="Password" required />
+
+      <!-- Conditionally add fields based on Coach/Trainer selection -->
+      <div *ngIf="isCoach">
+        <input class="input-field" type="text" placeholder="Coach ID" />
+      </div>
+
+      <div *ngIf="!isCoach">
+        <input class="input-field" type="text" placeholder="Trainer ID" />
+      </div>
+
+      <button type="submit" class="button">Login</button>
+    </form>
+
+    <div class="footer">
+      <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
+    </div>
+  </div>
+</div>
