@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wellness Tracking Login/Register</title>
+    <link rel="stylesheet" type="text/css" href="normalize.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Wellness Tracker</h1>
+
+        <!-- Toggle Section -->
+        <button id="toggleButton">Need to Register instead?</button>
+        <!-- Login Section -->
+        <div id="loginSection" class="card">
+            <h2>Login</h2>
+            <div class="form-group">
+                <label for="loginusername">Username:</label>
+                <input required="required" type="text" id="loginusername" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="loginpassword">Password:</label>
+                <input required="required" type="password" id="loginpassword" placeholder="Enter password">
+            </div>
+            <button id="loginButton">Login</button>
+            <div id="loginResult" class="result hidden"></div>
+        </div>
+        <!-- Register Section -->
+        <div id="registerSection" class="card hidden">
+            <h2>Register</h2>
+            <div class="form-group">
+                <label for="registerusername">Username:</label>
+                <input required="required" type="text" id="registerusername" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="registerpassword">Password:</label>
+                <input required="required" type="password" id="registerpassword" placeholder="Enter password">
+            </div>
+            <div class="form-group">
+                <label for="AccountType">Account Type:</label>
+                <select required="required" name="accountType" id="AccountType">
+                    <option value="user">User</option>
+                    <option value="Fitness coach">Fitness Coach</option>
+                    <option value="Nutritionist">Nutritionist</option>
+                    <option value="Mental Health coach">Mental Health Coach</option>
+                </select>
+            </div>
+            <button id="registerButton">Register</button>
+            <div id="registerResult" class="result hidden"></div>
+        </div>
+    </div>
+<script>
+    //API base URL
+    const API_BASE_URL ="https://localhost:4001";
+
+    //Global variable to store the authentication token
+    let authToken = null;
+
+    //DOM Elements
+    const loginSection = document.getElementById('loginSection');
+    const registerSection = document.getElementById('registerSection');
+    const loginButton = document.getElementById('loginButton');
+    const registerButton = document.getElementById('registerButton');
+    const toggleButton = document.getElementById('toggleButton');
+    const loginResult = document.getElementById('loginResult');
+    const registerResult = document.getElementById('registerResult');
+
+    //Event Listeners
+    loginButton.addEventListener('click', handleLogin);
+    registerButton.addEventListener('click', handleRegister);
+    toggleButton.addEventListener('click', toggleAuthSection)
+
+    //Toggle Between Login and register Sections
+    function toggleAuthSection() {
+        if (loginSection.classList.contains('hidden')) {
+            loginSection.classList.remove('hidden');
+            registerSection.classList.add('hidden');
+            toggleButton.textContent = "Switch to Register";
+        }
+        else {
+            loginSection.classList.add('hidden');
+            registerSection.classList.remove('hidden');
+            toggleButton.textContent = "Switch to Login";
+        }
+    }
+    //Login function
+    async function handleLogin() {
+        const username = document.getElementById('loginusername').value;
+        const password = document.getElementById('loginpassword').value;
+
+        try {
+            loginButton.disabled = true;
+            showResult(loginResult, 'Logging in...', 'info');
+
+            const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage || `Login failed: ${response.status}`);
+            }
+
+            authToken = await response.text();
+
+            showResult(loginResult, 'Login successful!', 'success');
+            window.location.href = "/inputEvent/inputEvent.html";
+        } catch (error) {
+            showResult(loginResult, error.message, 'error');
+            loginButton.disabled = false;
+        }
+    }
+
+    async function handleRegister() {
+        const username = document.getElementById('registerusername').value;
+        const password = document.getElementById('registerpassword').value;
+        const accountType = document.getElementById('AccountType').value;
+
+        try {
+            registerButton.disabled = true;
+            showResult(registerResult, 'Registering...', 'info');
+
+            const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password, accountType })
+            });
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage || `Registration failed: ${response.status}`);
+            }
+
+            const result = await response.json();
+            showResult(registerResult, 'Registration successful! You can now log in.', 'success');
+            setTimeout(() => {
+                toggleAuthSection();
+                registerbutton.disabled = false;
+            }, 2000);
+        } catch (error) {
+            showResult(registerResult, error.message, 'error');
+            registerButton.disabled = false;
+        }
+    }
+
+    //ShowResult
+    function showResult(element, message, type) {
+        element.textContent = message;
+        element.className = `result ${type}`;
+        element.classList.remove('block');
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Input Event</title>
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="inputEvent.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Input your Event</h1>
+        <!-- Cardio Workout section -->
+        <div id="cardioWorkout">
+            <h2>Cardio Workout</h2>
+            <div class="form-group">
+                <label for="cardioDate">Date:</label>
+                <input required="required" type="date" id="cardioDate">
+            </div>
+            <div class="form-group">
+                <label for="steps">Steps:</label>
+                <input required="required" type="number" min="0" max="100000" id="steps" placeholder="0">
+            </div>
+            <div class="form-group">
+                <label for="distance">Distance in miles:</label>
+                <input required="required" type="number" min="0" max="50" id="distance" placeholder="0">
+            </div>
+            <div class="form-group">
+                <label for="cardioCalories">Calories Burned:</label>
+                <input required="required" type="number" id="cardioCalories" min="0" max="5000" placeholder="0">
+            </div>
+            <button id="recordWorkoutButton">Record Workout</button>
+            <div id="workoutRecordresult" class="result hidden"></div>
+        </div>
+        <!-- Meal Section -->
+        <div id="meal">
+            <h2>Meal</h2>
+            <div class="form-group">
+                <label for="mealDate">Date:</label>
+                <input required="required" type="date" id="mealDate">
+            </div>
+            <div class="form-group">
+                <label for="mealType">Type of meal:</label>
+                <select required="required" id="mealType">
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Dessert">Dessert</option>
+                    <option value="Snack">Snack</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="mealCalories">Calories consumed:</label>
+                <input required="required" type="number" id="mealCalories" min="0" max="5000" placeholder="0">
+            </div>
+            <div class="form-group">
+                <!--Make sure to add data cleaning and processing -->
+                <label for="foodDrinkConsumed">What did you eat:</label>
+                <input required="required" type="text" maxlength="200" id="foodDrinkConsumed" placeholder="Enter the list of foods and drinks, seperated by a comma">
+            </div>
+            <button id="recordMealButton">Record Meal</button>
+            <div id="mealRecordresult" class="result hidden"></div>
+        </div>
+        <!-- Mindfullness Section -->
+        <div id="mindfullness">
+            <h2>Mindfullness Session</h2>
+            <div class="form-group">
+                <label for="mindfulDate">Date:</label>
+                <input required="required" type="date" id="mindfulDate">
+            </div>
+            <div class="form-group">
+                <label for="mindfulType">Type of mindfullness session:</label>
+                <select required="required" id="mindfulType">
+                    <option value="Meditation">Meditation</option>
+                    <option value="Therapy">Therapy</option>
+                    <option value="Breathing">Breathing Exercise</option>
+                    <option value="Journal">Journaling</option>
+                    <option value="Stretching">Stretching</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="mindfulLength">Length of session in mins:</label>
+                <input required="required" type="number" id="mindfulLength" min="0" max="300" placeholder="0">
+            </div>
+            <div class="form-group">
+                <label for="mindfulFeelBefore">How were you feeling before the session (1-10):</label>
+                <input required="required" type="number" id="mindfulFeelBefore" min="0" max="10" placeholder="5">
+            </div>
+            <div class="form-group">
+                <label for="mindfulFeelAfter">How are you feeling after the session (1-10):</label>
+                <input required="required" type="number" id="mindfulFeelAfter" min="0" max="10" placeholder="5">
+            </div>
+            <div class="form-group">
+                <!--Make sure to add data cleaning and processing -->
+                <label for="mindfulNotes">Write anything about your session:</label>
+                <input required="required" type="text" maxlength="400" id="mindfulNotes" placeholder="Write how it went, how you feel, anything">
+            </div>
+            <button id="recordMindfulButton">Record Mindfullness Session</button>
+            <div id="mindfulRecordresult" class="result hidden"></div>
+        </div>
+    </div>
+<script>
+    const API_BASE_URL = "http://localhost:4001";
+
+    // DOM Elements
+    const workoutSection = document.getElementById("cardioWorkout");
+    const mealSection = document.getElementById("meal");
+    const mindfulnessSection = document.getElementById("mindfullness");
+
+    const workoutButton = document.getElementById("recordWorkoutButton");
+    const mealButton = document.getElementById("recordMealButton");
+    const mindfulButton = document.getElementById("recordMindfulButton");
+
+    const toggleButtons = document.createElement("div");
+    toggleButtons.innerHTML = `
+    <button id="toggleWorkout">Workout</button>
+    <button id="toggleMeal">Meal</button>
+    <button id="toggleMindful">Mindfulness</button>
+    `;
+    document.querySelector(".container").prepend(toggleButtons);
+
+    // Toggle Sections
+    function showSection(section) {
+        [workoutSection, mealSection, mindfulnessSection].forEach(s => s.style.display = "none");
+        section.style.display = "block";
+    }
+
+    document.getElementById("toggleWorkout").addEventListener("click", () => showSection(workoutSection));
+    document.getElementById("toggleMeal").addEventListener("click", () => showSection(mealSection));
+    document.getElementById("toggleMindful").addEventListener("click", () => showSection(mindfulnessSection));
+
+    // Default view
+    showSection(workoutSection);
+
+    // Event Handlers
+    async function recordWorkout() {
+        const data = {
+            date: document.getElementById("cardioDate").value,
+            steps: parseInt(document.getElementById("steps").value),
+            distance: parseFloat(document.getElementById("distance").value),
+            calories: parseInt(document.getElementById("cardioCalories").value)
+        };
+
+        await sendData("/workouts", data, "workoutRecordresult", workoutButton);
+    }
+
+    async function recordMeal() {
+        const data = {
+            date: document.getElementById("mealDate").value,
+            mealType: document.getElementById("mealType").value,
+            calories: parseInt(document.getElementById("mealCalories").value),
+            foodItems: document.getElementById("foodDrinkConsumed").value.split(",").map(item => item.trim())
+        };
+
+        await sendData("/meals", data, "mealRecordresult", mealButton);
+    }
+
+    async function recordMindfulness() {
+        const data = {
+            date: document.getElementById("mindfulDate").value,
+            type: document.getElementById("mindfulType").value,
+            length: parseInt(document.getElementById("mindfulLength").value),
+            beforeFeeling: parseInt(document.getElementById("mindfulFeelBefore").value),
+            afterFeeling: parseInt(document.getElementById("mindfulFeelAfter").value),
+            notes: document.getElementById("mindfulNotes").value
+        };
+
+        await sendData("/mindfulness", data, "mindfulRecordresult", mindfulButton);
+    }
+
+    // Generic function to send data
+    async function sendData(endpoint, data, resultElementId, button) {
+        const resultElement = document.getElementById(resultElementId);
+        try {
+            button.disabled = true;
+            resultElement.textContent = "Recording...";
+            resultElement.style.color = "blue";
+
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+
+            resultElement.textContent = "Recorded successfully!";
+            resultElement.style.color = "green";
+        } catch (error) {
+            resultElement.textContent = `Failed to record: ${error.message}`;
+            resultElement.style.color = "red";
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    // Event Listeners
+    workoutButton.addEventListener("click", recordWorkout);
+    mealButton.addEventListener("click", recordMeal);
+    mindfulButton.addEventListener("click", recordMindfulness);
+
+</script>
+</body>
+</html>
