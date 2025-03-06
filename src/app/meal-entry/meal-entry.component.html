@@ -1,0 +1,17 @@
+<div class="meal-entry-container">
+  <h2>Log a Meal</h2>
+  <form (submit)="uploadMeal()">
+    <input type="text" [(ngModel)]="meal.name" placeholder="Meal Name" required />
+    <input type="number" [(ngModel)]="meal.calories" placeholder="Calories" required />
+    <textarea [(ngModel)]="meal.description" placeholder="Description"></textarea>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Your Meals</h3>
+  <ul>
+    <li *ngFor="let meal of meals">
+      <strong>{{ meal.name }}</strong> - {{ meal.calories }} cal
+      <p>{{ meal.description }}</p>
+    </li>
+  </ul>
+</div>
