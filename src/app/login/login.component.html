@@ -1,26 +1,22 @@
 <div class="container">
   <div class="form-container">
     <h2>Login</h2>
-    <div class="toggle-container">
-      <button type="button" (click)="toggleLoginMode()" class="toggle-button">
-        Switch to {{ isCoach ? 'Client' : 'Trainer' }} Login
-      </button>
+    <div class="tab-container">
+      <button class="tab-button" [class.active]="selectedTab === 'admin'" (click)="selectTab('admin')">Admin</button>
+      <button class="tab-button" [class.active]="selectedTab === 'client'" (click)="selectTab('client')">Client</button>
+      <button class="tab-button" [class.active]="selectedTab === 'trainer'" (click)="selectTab('trainer')">Trainer</button>
     </div>
 
-    <form>
-      <input class="input-field" type="email" placeholder="Email" required />
-      <input class="input-field" type="password" placeholder="Password" required />
+    <form (submit)="onSubmit()" *ngIf="selectedTab">
+      <input class="input-field" type="email" placeholder="Email" [(ngModel)]="email" name="email" required />
+      <input class="input-field" type="password" placeholder="Password" [(ngModel)]="password" name="password" required />
+<!--      <input class="input-field" type="text" placeholder="User ID" [(ngModel)]="userId" name="userId" required />-->
 
-      <!-- Conditionally add fields based on Coach/Trainer selection -->
-      <div *ngIf="isCoach">
-        <input class="input-field" type="text" placeholder="Coach ID" />
-      </div>
+      <input type="hidden" [(ngModel)]="isAdmin" name="isAdmin" [value]="selectedTab === 'admin'" />
+      <input type="hidden" [(ngModel)]="isClient" name="isClient" [value]="selectedTab === 'client'" />
+      <input type="hidden" [(ngModel)]="isTrainer" name="isTrainer" [value]="selectedTab === 'trainer'" />
 
-      <div *ngIf="!isCoach">
-        <input class="input-field" type="text" placeholder="Trainer ID" />
-      </div>
-
-      <button type="submit" class="button">Login</button>
+      <input type="submit" class="button" value="Login">
     </form>
 
     <div class="footer">
@@ -28,3 +24,41 @@
     </div>
   </div>
 </div>
+
+<style>
+  .tab-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .tab-button {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 5px;
+    font-size: 16px;
+  }
+
+  .tab-button.active {
+    background-color: #2196F3;
+    color: white;
+  }
+
+  .input-field {
+  display: block;
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid #ccc;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.input-field:focus {
+  border-color: #2196F3; /* Change border color when active */
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 5px rgba(33, 150, 243, 0.5); /* Add a subtle glow effect */
+}
+
+</style>

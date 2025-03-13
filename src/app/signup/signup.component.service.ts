@@ -1,14 +1,27 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+providedIn: 'root'
+})
 export class SignupService {
-  private baseUrl = '/api/auth';
+private baseUrl = 'http://localhost:8080/api/auth/register'; // Assuming backend runs on localhost:8080
 
-  constructor(private http: HttpClient) {}
+constructor(private authService: AuthService) {}
 
-  signup(userData: { email: string; password: string; confirmPassword: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/signup`, userData);
+  signup(userData: { username: string, email: string, password: string, confirmPassword: string, category: string }): Observable<any> {
+    return this.http.post(`${this.baseUrl}/signup`, userData, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json' // Specify content type
+      })
+    }).pipe(
+      catchError((error) => {
+        console.error('Signup error:', error);  // Log error for debugging
+        return of(null);  // Return a fallback observable so the app can continue
+      })
+    );
   }
 }

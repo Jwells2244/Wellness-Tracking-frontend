@@ -1,17 +1,43 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router'; // Import RouterLink
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
-  imports: [RouterLink], // Include RouterLink in imports array
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  standalone: true,
+selector: 'app-login',
+templateUrl: './login.component.html',
+styleUrls: ['./login.component.css'],
+imports: [FormsModule, RouterModule, CommonModule]
 })
 export class LoginComponent {
-  isCoach: boolean = true;  // Default is 'Coach'
+email: string = '';
+password: string = '';
+userId: string = ''; // Unified User ID input
+selectedTab: 'admin' | 'client' | 'trainer' = 'client'; // Default to client login
 
-  toggleLoginMode() {
-    this.isCoach = !this.isCoach; // Toggle between 'Coach' and 'Trainer'
+// ✅ Define properties to track role
+isAdmin: boolean = false;
+isClient: boolean = true;
+isTrainer: boolean = false;
+
+selectTab(tab: 'admin' | 'client' | 'trainer') {
+    this.selectedTab = tab;
+
+    // ✅ Update role flags dynamically
+    this.isAdmin = tab === 'admin';
+    this.isClient = tab === 'client';
+    this.isTrainer = tab === 'trainer';
+  }
+
+  onSubmit() {
+    console.log("Login Submitted", {
+      email: this.email,
+      password: this.password,
+      userId: this.userId,
+      role: this.selectedTab,
+      isAdmin: this.isAdmin,
+      isClient: this.isClient,
+      isTrainer: this.isTrainer
+    });
   }
 }

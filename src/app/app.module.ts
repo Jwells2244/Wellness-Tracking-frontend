@@ -1,25 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';  // Root component
-import { HomeComponent } from './home/home.component';  // Standalone component
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';  // <-- This is the correct place to import it
+
+import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import { routes } from './app.routes';  // Import routes configuration
+import { HomeComponent } from './home/home.component';
+import { routes } from './app.routes';
 
 @NgModule({
-  declarations: [
-    // Declare the main root component
-    // HomeComponent is not declared here if it's standalone
-  ],
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot(routes),
-    HomeComponent,  // Import standalone components here
-    LoginComponent,  // If these are also standalone, import them
-    SignupComponent  // Same as above
+declarations: [
+AppComponent,
+LoginComponent,
+SignupComponent,
+HomeComponent
+],
+imports: [
+BrowserModule,
+HttpClientModule,  // <-- Import HttpClientModule here in AppModule
+FormsModule,
+RouterModule.forRoot(routes)
   ],
   providers: [],
-  bootstrap: [] // Bootstrapping the main component
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,18 +1,29 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { AuthService } from './auth.service';  // Make sure to import AuthService
 
-@Injectable({ providedIn: 'root' })
-export class LoginService {
-  private baseUrl = '/api/auth';
+@Component({
+selector: 'app-login',
+templateUrl: './login.component.html',
+styleUrls: ['./login.component.css']
+})
+export class LoginComponent {
+username: string = '';
+password: string = '';
 
-  constructor(private http: HttpClient) {}
+constructor(private authService: AuthService) { }
 
-  login(credentials: { email: string; password: string; role?: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, credentials);
-  }
-
-  logout(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/logout`, {});
+  // Login method that calls AuthService
+  login() {
+    this.authService.login(this.username, this.password).subscribe(
+      response => {
+        // If login is successful, store the token
+        this.authService.storeToken(response.token);
+        console.log('Login successful!');
+        // Optionally, redirect to the home page or dashboard
+      },
+      error => {
+        console.error('Login failed', error);
+      }
+    );
   }
 }
