@@ -1,20 +1,19 @@
 <div class="container">
   <div class="form-container">
     <h2>Login</h2>
-    <div class="tab-container">
+    <!-- <div class="tab-container">
       <button class="tab-button" [class.active]="selectedTab === 'admin'" (click)="selectTab('admin')">Admin</button>
       <button class="tab-button" [class.active]="selectedTab === 'client'" (click)="selectTab('client')">Client</button>
       <button class="tab-button" [class.active]="selectedTab === 'trainer'" (click)="selectTab('trainer')">Trainer</button>
-    </div>
+    </div> -->
 
-    <form (submit)="onSubmit()" *ngIf="selectedTab">
+    <form (submit)="onSubmit()">
       <input class="input-field" type="email" placeholder="Email" [(ngModel)]="email" name="email" required />
       <input class="input-field" type="password" placeholder="Password" [(ngModel)]="password" name="password" required />
-<!--      <input class="input-field" type="text" placeholder="User ID" [(ngModel)]="userId" name="userId" required />-->
 
-      <input type="hidden" [(ngModel)]="isAdmin" name="isAdmin" [value]="selectedTab === 'admin'" />
+      <!-- <input type="hidden" [(ngModel)]="isAdmin" name="isAdmin" [value]="selectedTab === 'admin'" />
       <input type="hidden" [(ngModel)]="isClient" name="isClient" [value]="selectedTab === 'client'" />
-      <input type="hidden" [(ngModel)]="isTrainer" name="isTrainer" [value]="selectedTab === 'trainer'" />
+      <input type="hidden" [(ngModel)]="isTrainer" name="isTrainer" [value]="selectedTab === 'trainer'" /> -->
 
       <input type="submit" class="button" value="Login">
     </form>
@@ -62,3 +61,4 @@
 }
 
 </style>
+

@@ -4,49 +4,47 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
-selector: 'app-signup',
-templateUrl: './signup.component.html',
-styleUrls: ['./signup.component.css'],
-imports: [FormsModule, RouterModule, CommonModule, HttpClientModule],
-providers: [HttpClient]  // Provide HttpClient here for the standalone component
+  selector: 'app-signup',
+  standalone: true,  
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css'],
+  imports: [FormsModule, RouterModule, CommonModule, HttpClientModule]  
 })
 export class SignupComponent {
-username: string = '';
-email: string = '';
-password: string = '';
-confirmPassword: string = '';
-selectedCategory: string = '';
-message: string = '';
+  username: string = '';
+  emailId: string = '';
+  password: string = '';
+  confirmPassword: string = '';
+  firstName: string = '';
+  lastName: string = '';
 
-constructor(private authService: AuthService, private router: Router) {
-    console.log("SignupComponent Loaded");
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     if (this.password !== this.confirmPassword) {
-      this.message = 'Passwords do not match!';
+      alert("Passwords do not match!");
       return;
     }
 
     const user = {
       username: this.username,
-      email: this.email,
+      emailId: this.emailId,
       password: this.password,
-      category: this.selectedCategory
+      firstName: this.firstName,
+      lastName: this.lastName 
     };
 
-    // Call the signup method from AuthService
     this.authService.signup(user).subscribe(
-      (response: any) => {
-        this.message = 'User registered successfully!';
-        this.router.navigate(['/login']);  // Redirect to login page after successful signup
+      response => {
+        alert('Signup successful! Please log in.');
+        this.router.navigate(['/login']);
       },
-      (error: any) => {
+      error => {
         console.error('Signup error:', error);
-        this.message = 'Error signing up. Please try again.';
+        alert('Signup failed. Please try again.');
       }
     );
   }

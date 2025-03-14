@@ -3,25 +3,24 @@
   <div class="form-container">
     <h2>Sign Up</h2>
     <form (submit)="onSubmit()">
-      <!-- Username Input -->
       <input class="input-field" type="text" placeholder="Username" [(ngModel)]="username" name="username" required />
 
-      <!-- Email Input -->
-      <input class="input-field" type="email" placeholder="Email" [(ngModel)]="email" name="email" required />
+      <input class="input-field" type="email" placeholder="Email" [(ngModel)]="emailId" name="emailId" required />
 
-      <!-- Password Input -->
       <input class="input-field" type="password" placeholder="Password" [(ngModel)]="password" name="password" required />
 
-      <!-- Confirm Password Input -->
       <input class="input-field" type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" name="confirmPassword" required />
 
-      <!-- Category Dropdown --><!-- Category Dropdown -->
-      <select class="input-field1" [(ngModel)]="selectedCategory" name="selectedCategory" required>
+      <input class="input-field" type="text" placeholder="FirstName" [(ngModel)]="firstName" name="firstName" required />
+
+      <input class="input-field" type="text" placeholder="LastName" [(ngModel)]="lastName" name="lastName" required />
+
+      <!-- <select class="input-field1" [(ngModel)]="selectedCategory" name="selectedCategory" required>
         <option value="" disabled selected>Select Category</option>
         <option value="admin">Admin</option>
         <option value="client">Client</option>
         <option value="trainer">Trainer</option>
-      </select>
+      </select> -->
 
 
       <button type="submit" class="button">Sign Up</button>
@@ -32,4 +31,5 @@
     </div>
   </div>
 </div>
+
 
