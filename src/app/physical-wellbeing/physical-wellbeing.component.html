@@ -1,22 +1,40 @@
-<div class="physical-wellbeing-container">
-  <h2>Log Physical Activity</h2>
-  <form (submit)="logEntry()">
-    <label>Steps</label>
-    <input type="number" [(ngModel)]="entry.steps" min="0" required />
-    <label>Distance (miles)</label>
-    <input type="number" [(ngModel)]="entry.distance" min="0" step="0.1" required />
-    <label>Calories Burned</label>
-    <input type="number" [(ngModel)]="entry.caloriesBurned" min="0" required />
-    <button type="submit">Submit</button>
-  </form>
+<div class="container">
+  <!-- Left Side: Form -->
+  <div class="form-container">
+    <h2>Log Physical Activity</h2>
+    <form (submit)="logEntry(); $event.preventDefault()">
+      <input class="input-field" type="date" [(ngModel)]="entry.date" name="date" required />
 
-  <h3>Your Physical Activity Logs</h3>
-  <ul>
-    <li *ngFor="let entry of entries">
-      <strong>Steps: {{ entry.steps }}</strong>
-      <p>Distance: {{ entry.distance }} miles</p>
-      <p>Calories Burned: {{ entry.caloriesBurned }}</p>
-    </li>
-  </ul>
+      <input class="input-field" type="number" placeholder="Steps" [(ngModel)]="entry.steps" name="steps" min="0" required />
+
+      <input class="input-field" type="number" placeholder="Distance (miles)" [(ngModel)]="entry.distance" name="distance" min="0" step="0.1" required />
+
+      <input class="input-field" type="number" placeholder="Calories Burned" [(ngModel)]="entry.caloriesBurned" name="caloriesBurned" min="0" required />
+
+      <button type="submit" class="button">Submit</button>
+    </form>
+  </div>
+
+  <!-- Right Side: Display Data -->
+  <div class="data-container">
+    <h2>Activity Logs</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Steps</th>
+          <th>Distance (miles)</th>
+          <th>Calories Burned</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of entries">
+          <td>{{ entry.date }}</td>
+          <td>{{ entry.steps }}</td>
+          <td>{{ entry.distance }}</td>
+          <td>{{ entry.caloriesBurned }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-

@@ -1,0 +1,114 @@
+<!-- App Bar -->
+<div class="app-bar">
+    <nav>
+        <ul>
+            <li><a routerLink="/home">Home</a></li>
+            <li><a routerLink="/entry">Entry</a></li>
+            <li><a routerLink="/activity">Activity</a></li>
+            <li><a routerLink="/recommendations">Recommendations</a></li>
+            <li><a routerLink="/profile">Profile</a></li>
+        </ul>
+    </nav>
+</div>
+
+
+<div class="container">
+    <!-- Physical Well-being Form -->
+    <div class="form-container">
+        <h2>Physical Well-being</h2>
+        <form (submit)="logPhysicalEntry(); $event.preventDefault()">
+            <input class="input-field" type="date" [(ngModel)]="physicalEntry.date" name="date" required />
+
+            <input class="input-field" type="number" placeholder="Steps" [(ngModel)]="physicalEntry.steps" name="steps"
+                min="0" required />
+
+            <input class="input-field" type="number" placeholder="Distance (miles)" [(ngModel)]="physicalEntry.distance"
+                name="distance" min="0" step="0.1" required />
+
+            <input class="input-field" type="number" placeholder="Calories Burned"
+                [(ngModel)]="physicalEntry.caloriesBurned" name="caloriesBurned" min="0" required />
+
+            <input class="input-field" type="number" placeholder="Weight (kg/lbs)" [(ngModel)]="physicalEntry.weight"
+                name="weight" min="1" required />
+
+            <select class="input-field" [(ngModel)]="physicalEntry.workoutType" name="workoutType"
+                (change)="checkWorkoutType()" required>
+                <option value="" disabled selected>Select Workout Type</option>
+                <option value="Cardio">Cardio</option>
+                <option value="Strength Training">Strength Training</option>
+                <option value="Yoga">Yoga</option>
+                <option value="Cycling">Cycling</option>
+                <option value="Swimming">Swimming</option>
+                <option value="HIIT">HIIT</option>
+                <option value="Pilates">Pilates</option>
+                <option value="Running">Running</option>
+                <option value="Walking">Walking</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <!-- Input field appears only if 'Other' is selected -->
+            <input *ngIf="physicalEntry.workoutType === 'Other'" class="input-field" type="text"
+                placeholder="Specify Workout Type" [(ngModel)]="physicalEntry.otherWorkoutType" name="otherWorkoutType"
+                required />
+
+            <button type="submit" class="button">Submit</button>
+        </form>
+    </div>
+
+    <!-- Mental Well-being Form -->
+    <div class="form-container">
+        <h2>Mental Well-being</h2>
+        <form (submit)="logMentalEntry(); $event.preventDefault()">
+            <input class="input-field" type="date" [(ngModel)]="mentalEntry.date" name="date" required />
+
+            <input class="input-field" type="number" placeholder="Mood Rating (1-10)"
+                [(ngModel)]="mentalEntry.moodRating" name="moodRating" min="1" max="10" required />
+
+            <input class="input-field" type="number" placeholder="Stress Level (1-10)"
+                [(ngModel)]="mentalEntry.stressLevel" name="stressLevel" min="1" max="10" required />
+
+            <!-- Bedtime & Wake-up Time in the same row -->
+            <div class="time-container">
+                <input class="input-field half-width" type="time" [(ngModel)]="mentalEntry.bedTime" name="bedTime"
+                    required />
+                <input class="input-field half-width" type="time" [(ngModel)]="mentalEntry.wakeupTime" name="wakeupTime"
+                    required />
+            </div>
+
+            <input class="input-field" type="number" placeholder="Screen Time (hours)"
+                [(ngModel)]="mentalEntry.screenTime" name="screenTime" min="0" step="0.1" required />
+
+            <textarea class="notes-field" placeholder="Notes" [(ngModel)]="mentalEntry.notes" name="notes"></textarea>
+
+            <button type="submit" class="button">Submit</button>
+        </form>
+    </div>
+
+
+    <!-- Meal Tracking Form -->
+    <div class="form-container">
+        <h2>Meal Tracking</h2>
+        <form (submit)="logMealEntry(); $event.preventDefault()">
+            <input class="input-field" type="date" [(ngModel)]="mealEntry.date" name="date" required />
+
+            <select class="input-field" [(ngModel)]="mealEntry.mealType" name="mealType" required>
+                <option value="" disabled selected>Select Meal Type</option>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+                <option value="Snack">Snack</option>
+            </select>
+
+            <textarea class="input-field" placeholder="Food Description" [(ngModel)]="mealEntry.description"
+                name="description"></textarea>
+
+            <input class="input-field" type="number" placeholder="Calories" [(ngModel)]="mealEntry.calories"
+                name="calories" min="0" required />
+
+            <input class="input-field" type="number" placeholder="Water(lts)" [(ngModel)]="mealEntry.water"
+                name="water" min="0" required />
+
+            <button type="submit" class="button">Submit</button>
+        </form>
+    </div>
+</div>

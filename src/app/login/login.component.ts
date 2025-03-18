@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
 selector: 'app-login',
@@ -12,6 +13,8 @@ imports: [FormsModule, RouterModule, CommonModule]
 export class LoginComponent {
 email: string = '';
 password: string = '';
+
+constructor(private router: Router) {}
 // userId: string = ''; // Unified User ID input
 // selectedTab: 'admin' | 'client' | 'trainer' = 'client'; // Default to client login
 
@@ -40,6 +43,7 @@ password: string = '';
       // isTrainer: this.isTrainer
     });
     alert('✅ Login Successful!');
+    this.router.navigate(['/entries-form']);
   }
 }
 
