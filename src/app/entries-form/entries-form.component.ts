@@ -17,7 +17,7 @@ export class EntriesFormComponent {
     caloriesBurned: null, 
     weight: null, 
     workoutType: '', 
-    otherWorkoutType: ''  // ✅ Added new property for custom workout type
+    otherWorkoutType: '' 
   };
   physicalEntries: any[] = [];
 

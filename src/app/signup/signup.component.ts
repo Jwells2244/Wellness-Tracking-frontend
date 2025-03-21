@@ -39,12 +39,12 @@ export class SignupComponent {
 
     this.authService.signup(user).subscribe(
       response => {
-        alert('Signup successful! Please log in.');
+        alert('✅ Signup successful! Please log in.');
         this.router.navigate(['/login']);
       },
       error => {
-        console.error('Signup error:', error);
-        alert('Signup failed. Please try again.');
+        console.error('❌ Signup error:', error);
+        alert('❌ Signup failed. Please try again.');
       }
     );
   }

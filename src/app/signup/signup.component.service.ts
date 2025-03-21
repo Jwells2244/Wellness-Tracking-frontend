@@ -3,17 +3,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Injectable({
 providedIn: 'root'
 })
 export class SignupService {
-private baseUrl = 'http://localhost:8080/api/auth/register'; // Assuming backend runs on localhost:8080
+private baseUrl = 'http://localhost:8080'; 
+  http: any;
 
 constructor(private authService: AuthService) {}
 
   signup(userData: { username: string, email: string, password: string, confirmPassword: string, category: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/signup`, userData, {
+    return this.http.post(`${this.baseUrl}/register`, userData, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json' // Specify content type
       })

@@ -1,50 +1,40 @@
+// Login Component
 import { Component } from '@angular/core';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
 @Component({
-selector: 'app-login',
-templateUrl: './login.component.html',
-styleUrls: ['./login.component.css'],
-imports: [FormsModule, RouterModule, CommonModule]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  imports: [FormsModule, RouterModule, CommonModule]
 })
 export class LoginComponent {
-email: string = '';
-password: string = '';
+  username: string = '';  // ✅ Match form input
+  password: string = '';
 
-constructor(private router: Router) {}
-// userId: string = ''; // Unified User ID input
-// selectedTab: 'admin' | 'client' | 'trainer' = 'client'; // Default to client login
-
-// ✅ Define properties to track role
-// isAdmin: boolean = false;
-// isClient: boolean = true;
-// isTrainer: boolean = false;
-
-// selectTab(tab: 'admin' | 'client' | 'trainer') {
-//     this.selectedTab = tab;
-
-//     // ✅ Update role flags dynamically
-//     this.isAdmin = tab === 'admin';
-//     this.isClient = tab === 'client';
-//     this.isTrainer = tab === 'trainer';
-//   }
+  constructor(private authService: AuthService, private router: Router) {}  // ✅ Inject AuthService
 
   onSubmit() {
-    console.log("Login Submitted", {
-      email: this.email,
-      password: this.password,
-      // userId: this.userId,
-      // role: this.selectedTab,
-      // isAdmin: this.isAdmin,
-      // isClient: this.isClient,
-      // isTrainer: this.isTrainer
-    });
-    alert('✅ Login Successful!');
-    this.router.navigate(['/entries-form']);
-  }
+    console.log('🔵 Sending login request with:', this.username, this.password);
+    this.authService.login(this.username, this.password).subscribe(
+      (response: any) => {
+        console.log('🟢 Login response:', response);
+        if (response && response.token) {
+          this.authService.storeToken(response.token);
+          alert('✅ Login Successful!');
+          this.router.navigate(['/entries-form']);
+        } else {
+          alert('❌ Invalid credentials.');
+        }
+      },
+      (error: any) => {
+        console.error('🔴 Login error:', error);
+        alert('❌ Login Failed! Invalid credentials.');
+      }
+    );
+  }  
 }
-
-
