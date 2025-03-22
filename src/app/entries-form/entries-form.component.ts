@@ -1,61 +1,105 @@
+import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { AuthInterceptor } from '../auth.intercepter';
 
 @Component({
   selector: 'app-entries-form',
   templateUrl: './entries-form.component.html',
   styleUrls: ['./entries-form.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } // 👉 ADD THIS
+  ]
 })
 export class EntriesFormComponent {
+  constructor(private http: HttpClient) {}
+
+  userId = 1; 
   physicalEntry = { 
-    date: '', 
-    steps: null, 
-    distance: null, 
-    caloriesBurned: null, 
-    weight: null, 
-    workoutType: '', 
-    otherWorkoutType: '' 
+    date: '', steps: null, distance: null, caloriesBurned: null, weight: null, 
+    workoutType: '', otherWorkoutType: '' 
   };
-  physicalEntries: any[] = [];
-
-  mentalEntry = { date: '', moodRating: null, notes: '', bedTime: '', wakeupTime: '', screenTime: null, stressLevel: null };
-  mentalEntries: any[] = [];
-
+  mentalEntry = { 
+    date: '', moodRating: null, notes: '', bedTime: '', wakeupTime: '', 
+    screenTime: null, stressLevel: null 
+  };
   mealEntry = { date: '', mealType: '', description: '', calories: null, water: null };
-  mealEntries: any[] = [];
 
   logPhysicalEntry() {
     if (this.physicalEntry.workoutType === 'Other') {
-      this.physicalEntry.workoutType = this.physicalEntry.otherWorkoutType; // ✅ Save custom workout type
+      this.physicalEntry.workoutType = this.physicalEntry.otherWorkoutType;
     }
-    this.physicalEntries.push({ ...this.physicalEntry });
-
-    this.physicalEntry = { 
-      date: '', 
-      steps: null, 
-      distance: null, 
-      caloriesBurned: null, 
-      weight: null, 
-      workoutType: '', 
-      otherWorkoutType: '' 
+  
+    const payload = {
+      date: this.physicalEntry.date,
+      steps: this.physicalEntry.steps,
+      distance: this.physicalEntry.distance,
+      caloriesBurned: this.physicalEntry.caloriesBurned,
+      weight: this.physicalEntry.weight,
+      workoutType: this.physicalEntry.workoutType
+    };
+  
+    this.http.post('http://localhost:8080/api/user/physical-wellbeing/log', payload)
+      .subscribe({
+        next: (res) => console.log('Physical entry saved', res),
+        error: (err) => console.error('Error saving physical entry', err)
+      });
+  
+    this.physicalEntry = {
+      date: '', steps: null, distance: null,
+      caloriesBurned: null, weight: null,
+      workoutType: '', otherWorkoutType: ''
     };
   }
+  
 
   logMentalEntry() {
-    this.mentalEntries.push({ ...this.mentalEntry });
+    const bed = parseInt(this.mentalEntry.bedTime.replace(':', ''));
+    const wake = parseInt(this.mentalEntry.wakeupTime.replace(':', ''));
+  
+    const payload = {
+      date: this.mentalEntry.date,
+      moodRating: this.mentalEntry.moodRating,
+      stressLevel: this.mentalEntry.stressLevel,
+      bedTime: bed,
+      wakeupTime: wake,
+      screenTime: this.mentalEntry.screenTime,
+      notes: this.mentalEntry.notes
+    };
+  
+    this.http.post('http://localhost:8080/api/user/mental-wellbeing/log', payload)
+      .subscribe({
+        next: (res) => console.log('Mental entry saved', res),
+        error: (err) => console.error('Error saving mental entry', err)
+      });
+  
     this.mentalEntry = { date: '', moodRating: null, notes: '', bedTime: '', wakeupTime: '', screenTime: null, stressLevel: null };
   }
+  
 
   logMealEntry() {
-    this.mealEntries.push({ ...this.mealEntry });
-    this.mealEntry = { date: '', mealType: '', description: '', calories: null, water: null};
+    const payload = {
+      date: this.mealEntry.date,
+      mealType: this.mealEntry.mealType,
+      description: this.mealEntry.description,
+      calories: this.mealEntry.calories,
+      water: this.mealEntry.water
+    };
+  
+    this.http.post('http://localhost:8080/api/user/meals/upload', payload)
+      .subscribe({
+        next: (res) => console.log('Meal entry saved', res),
+        error: (err) => console.error('Error saving meal entry', err)
+      });
+  
+    this.mealEntry = { date: '', mealType: '', description: '', calories: null, water: null };
   }
+  
 
   checkWorkoutType() {
-    // If the user selects 'Other', clear the input field for custom workout type
     if (this.physicalEntry.workoutType !== 'Other') {
       this.physicalEntry.otherWorkoutType = '';
     }
