@@ -120,3 +120,26 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1000;
+  padding: 10px 0;
+  margin: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.sticky-filters {
+  position: sticky;
+  top: 50px; /* Adjust if header height changes */
+  background-color: white;
+  z-index: 999;
+  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-bottom: 1px solid #eee;
+}
+
