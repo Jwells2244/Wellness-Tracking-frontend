@@ -13,5 +13,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'physical-wellbeing', component: PhysicalWellbeingComponent },
-  { path: 'entries-form', component: EntriesFormComponent, canActivate: [AuthGuard] }
+  { path: 'entries-form', component: EntriesFormComponent, canActivate: [AuthGuard] },
+  { path: 'visualizer', component: VisualizerComponent }
 ];
