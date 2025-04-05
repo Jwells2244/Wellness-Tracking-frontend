@@ -13,16 +13,19 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.intercepter';
 
 @NgModule({
-declarations: [
-AppComponent,
-LoginComponent,
-SignupComponent,
-HomeComponent
-],
-imports: [
-BrowserModule,
-FormsModule,
-RouterModule.forRoot(routes),
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    SignupComponent,
+    HomeComponent,
+    VisualizerComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    RouterModule.forRoot(routes),
+    NgChartsModule 
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
