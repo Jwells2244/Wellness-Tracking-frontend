@@ -14,5 +14,5 @@ export const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'physical-wellbeing', component: PhysicalWellbeingComponent },
   { path: 'entries-form', component: EntriesFormComponent, canActivate: [AuthGuard] },
-  { path: 'wellbeing-list', component: WellbeingListComponent }
+  { path: 'wellbeing-list', component: WellbeingListComponent, canActivate: [AuthGuard] }
 ];

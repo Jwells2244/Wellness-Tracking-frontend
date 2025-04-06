@@ -9,13 +9,15 @@ import { HomeComponent } from './home/home.component';
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.intercepter';
+import { WellbeingListComponent } from './wellbeing-list/wellbeing-list.component';
 
 @NgModule({
 declarations: [
 AppComponent,
 LoginComponent,
 SignupComponent,
-HomeComponent
+HomeComponent,
+WellbeingListComponent
 ],
 imports: [
 BrowserModule,
