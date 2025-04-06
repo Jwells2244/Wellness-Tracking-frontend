@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SafePipe } from '../safe.pipe';
+import videosData from './wellbeing-list-data';
 
 interface Instructor {
   name: string;
@@ -29,8 +30,8 @@ export class WellbeingListComponent implements OnInit {
 
   categories = [
     { name: 'Physical', types: ['Cardio', 'Strength Training', 'Yoga', 'Cycling', 'HIIT', 'Pilates', 'Running', 'Flexibility'] },
-    { name: 'Mental', types: ['Meditation', 'Mindfulness'] },
-    { name: 'Diet Meal', types: ['Vegan Meals', 'Keto Meals'] }
+    { name: 'Mental', types: ['Meditation', 'Mindfulness', 'Motivation', 'Tips'] },
+    { name: 'Diet Meal', types: ['Vegan Meals', 'Keto Meals', 'Paleo Meals','Low Carb Meals', 'High Protein Meals'] }
   ];
 
   selectedCategory: string = 'All';
@@ -40,212 +41,7 @@ export class WellbeingListComponent implements OnInit {
 
   selectedTypes: string[] = [];
   ngOnInit(): void {
-    this.workouts = [
-      {
-        instructor: { name: 'Sunny', gender: 'Male', expertise: 2 },
-        type: 'Cardio',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed/9psH-BsJ_IM'
-      },
-      {
-        instructor: { name: 'Roberta', gender: 'Female', expertise: 4 },
-        type: 'Cardio',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//cZyHgKtK75A'
-      },
-      {
-        instructor: { name: 'Rick', gender: 'Male', expertise: 5 },
-        type: 'Cardio',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed/melA7IB117I'
-      },
-      {
-        instructor: { name: 'Caroline', gender: 'Female', expertise: 8 },
-        type: 'Cardio',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//kZDvg92tTMc'
-      },
-      {
-        instructor: { name: 'Marie Steffen ', gender: 'Female', expertise: 3 },
-        type: 'Flexibility',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//i6TzP2COtow'
-      },
-      {
-        instructor: { name: 'Toni Mitchell ', gender: 'Female', expertise: 5 },
-        type: 'Flexibility',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//-SD_MucCa6c'
-      },
-      {
-        instructor: { name: 'Tony Roy ', gender: 'Male', expertise: 11 },
-        type: 'Flexibility',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//FI51zRzgIe4'
-      },
-      {
-        instructor: { name: 'Daniela', gender: 'Female', expertise: 1 },
-        type: 'Flexibility',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//YfCK3uOz1r4'
-      },
-      {
-        instructor: { name: 'Carolina', gender: 'Female', expertise: 4 },
-        type: 'Strength Training',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//GViX8riaHX4'
-      },
-      {
-        instructor: { name: 'Tone', gender: 'Male', expertise: 6 },
-        type: 'Strength Training',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//7GkMHPe_OXw'
-      },
-      {
-        instructor: { name: 'Barbell', gender: 'Male', expertise: 3 },
-        type: 'Strength Training',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//34LJX-arUo8'
-      },
-      {
-        instructor: { name: 'Ben', gender: 'Male', expertise: 6 },
-        type: 'Running',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//3RN7-oOTIEw'
-      },
-      {
-        instructor: { name: 'Manni', gender: 'Male', expertise: 12 },
-        type: 'Running',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//yN8tKZobL8c'
-      },
-      {
-        instructor: { name: 'Marie', gender: 'Female', expertise: 2 },
-        type: 'Running',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//vv54e5YR6uA'
-      },
-      {
-        instructor: { name: 'Nancy', gender: 'Female', expertise: 5 },
-        type: 'Yoga',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//Eml2xnoLpYE'
-      },
-      {
-        instructor: { name: 'Kassandra', gender: 'Female', expertise: 7 },
-        type: 'Yoga',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//CM43AZaRXNw'
-      },
-      {
-        instructor: { name: 'Nicole', gender: 'Female', expertise: 14 },
-        type: 'Yoga',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//uqJ-jANozcE'
-      },
-      {
-        instructor: { name: 'Phillip', gender: 'Male', expertise: 1 },
-        type: 'Yoga',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//16u9UJekrG0'
-      },
-      {
-        instructor: { name: 'Sean', gender: 'Male', expertise: 4 },
-        type: 'Pilates',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//dHmoD-ArFYo'
-      },
-      {
-        instructor: { name: 'John', gender: 'Male', expertise: 8 },
-        type: 'Pilates',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//0MsirNd1AnY'
-      },
-      {
-        instructor: { name: 'Nicole', gender: 'Female', expertise: 9 },
-        type: 'Pilates',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//y2RcYo36boM'
-      },
-      {
-        instructor: { name: 'Trinity', gender: 'Female', expertise: 5 },
-        type: 'HIIT',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//cbKkB3POqaY'
-      },
-      {
-        instructor: { name: 'Sarah', gender: 'Female', expertise: 2 },
-        type: 'HIIT',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//jeLxN-wt7jY'
-      },
-      {
-        instructor: { name: 'Ashley', gender: 'Female', expertise: 10 },
-        type: 'HIIT',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//jqUGUYpxQ7U'
-      },
-      {
-        instructor: { name: 'Jackson', gender: 'Male', expertise: 3 },
-        type: 'HIIT',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//npofZutKsfA'
-      },
-      {
-        instructor: { name: 'James', gender: 'Male', expertise: 4 },
-        type: 'HIIT',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//uTo2m16eJqI'
-      },
-      {
-        instructor: { name: 'Tim Crain', gender: 'Male', expertise: 6 },
-        type: 'Cycling',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//wBurKQX7h4Q'
-      },
-      {
-        instructor: { name: 'Kaleigh', gender: 'Female', expertise: 1 },
-        type: 'Cycling',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//8PJMYSB1kxQ'
-      },
-      {
-        instructor: { name: 'Kevin', gender: 'Male', expertise: 4 },
-        type: 'Cycling',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//0L9BYzo98FA'
-      },
-      {
-        instructor: { name: 'Mariana', gender: 'Female', expertise: 9},
-        type: 'Cycling',
-        category: 'Physical',
-        videoUrl: 'https://www.youtube.com/embed//ewrf_rCHUdA'
-      },
-      {
-        instructor: { name: 'James', gender: 'Male', expertise: 4 },
-        type: 'Meditation',
-        category: 'Mental',
-        videoUrl: 'https://www.youtube.com/embed/6p_yaNFSYao'
-      },
-      {
-        instructor: { name: 'Emily', gender: 'Female', expertise: 3 },
-        type: 'Mindfulness',
-        category: 'Mental',
-        videoUrl: 'https://www.youtube.com/embed/w6T02g5hnT4'
-      },
-      {
-        instructor: { name: 'Chef Anna', gender: 'Female', expertise: 5 },
-        type: 'Vegan Meals',
-        category: 'Diet Meal',
-        videoUrl: 'https://www.youtube.com/embed/nfHNbNXVg1k'
-      },
-      {
-        instructor: { name: 'Chef Ron', gender: 'Male', expertise: 6 },
-        type: 'Keto Meals',
-        category: 'Diet Meal',
-        videoUrl: 'https://www.youtube.com/embed/0eV1kzWGWbE'
-      },
-    ];
+    this.workouts = videosData;
 
     this.filteredWorkouts = this.workouts;
   }
@@ -289,7 +85,6 @@ export class WellbeingListComponent implements OnInit {
       return matchCategory && matchGender && matchType && matchExperience;
     });
   }
-  
   
 
   private expertiseInRange(expertise: number, range: string): boolean {
