@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { AuthInterceptor } from '../auth.intercepter';
+import { FormsModule } from '@angular/forms';
+import { AppBarComponent } from '../app-bar/app-bar.component';
 
 @Component({
   selector: 'app-entries-form',
   templateUrl: './entries-form.component.html',
   styleUrls: ['./entries-form.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AppBarComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } // 👉 ADD THIS
   ]

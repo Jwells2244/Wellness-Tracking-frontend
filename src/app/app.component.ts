@@ -11,5 +11,8 @@ import {SignupComponent} from './signup/signup.component';
   standalone: true,
 })
 export class AppComponent {
+  onVideosClick() {
+    console.log('Videos link clicked!');
+  }
   title = 'your-angular-project';
 }

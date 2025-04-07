@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { SafePipe } from '../safe.pipe';
 import videosData from './wellbeing-list-data';
+import { FormsModule } from '@angular/forms';
+import { AppBarComponent } from '../app-bar/app-bar.component';
 
 interface Instructor {
   name: string;
@@ -20,7 +21,7 @@ interface Workout {
 @Component({
   selector: 'app-wellbeing-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, SafePipe],
+  imports: [CommonModule, FormsModule, SafePipe, AppBarComponent],
   templateUrl: './wellbeing-list.component.html',
   styleUrls: ['./wellbeing-list.component.css']
 })
@@ -44,6 +45,7 @@ export class WellbeingListComponent implements OnInit {
     this.workouts = videosData;
 
     this.filteredWorkouts = this.workouts;
+    console.log('WellbeingListComponent Loaded!');
   }
 
   onCategoryChange(): void {
