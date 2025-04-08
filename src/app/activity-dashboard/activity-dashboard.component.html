@@ -1,0 +1,200 @@
+<!-- App Bar
+<app-app-bar></app-app-bar>
+
+<div class="dashboard">
+    <h2>Activity Dashboard</h2>
+
+    <section class="physical-entries">
+        <h3>Physical Activity Logs</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Workout Type</th>
+                <th>Calories Burned</th>
+                <th>Distance (km)</th>
+                <th>Steps</th>
+                <th>Weight (kg)</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (entry of physicalEntries; track entry.id) {
+                <tr>
+                  <td>{{ entry.date | date:'shortDate' }}</td>
+                  <td>{{ entry.workoutType }}</td>
+                  <td>{{ entry.caloriesBurned }}</td>
+                  <td>{{ entry.distance }}</td>
+                  <td>{{ entry.steps }}</td>
+                  <td>{{ entry.weight }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    <section class="mental-entries">
+      <h3>Mental Wellness Logs</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Mood Rating</th>
+              <th>Stress Level</th>
+              <th>Bed Time</th>
+              <th>Wake Time</th>
+              <th>Screen Time</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (entry of mentalEntries; track entry.id) {
+              <tr>
+                <td>{{ entry.date | date:'shortDate' }}</td>
+                <td>{{ entry.moodRating }}/10</td>
+                <td>{{ entry.stressLevel }}/10</td>
+                <td>{{ entry.bedTime }}:00</td>
+                <td>{{ entry.wakeupTime }}:00</td>
+                <td>{{ entry.screenTime }}h</td>
+                <td>{{ entry.notes }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  
+    <section class="meal-entries">
+      <h3>Meal Logs</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Meal Type</th>
+              <th>Description</th>
+              <th>Calories</th>
+              <th>Water (L)</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (entry of mealEntries; track entry.id) {
+              <tr>
+                <td>{{ entry.date | date:'shortDate' }}</td>
+                <td>{{ entry.mealType }}</td>
+                <td>{{ entry.description }}</td>
+                <td>{{ entry.calories }}</td>
+                <td>{{ entry.water }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div> -->
+
+  <!-- App Bar -->
+<app-app-bar></app-app-bar>
+
+<div class="dashboard">
+  <h2>Activity Dashboard</h2>
+
+  <!-- Filter Controls -->
+  <div class="filter-controls">
+    <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="applyFilters()" />
+    <input type="date" [(ngModel)]="selectedDate" (change)="applyFilters()" />
+    <button class="reset-btn" (click)="resetFilters()">Reset</button>
+  </div>
+
+  <section class="physical-entries">
+    <h3>Physical Activity Logs</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Workout Type</th>
+            <th>Calories Burned</th>
+            <th>Distance (km)</th>
+            <th>Steps</th>
+            <th>Weight (kg)</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entry of filteredPhysicalEntries; track entry.id) {
+            <tr>
+              <td>{{ entry.date | date:'shortDate' }}</td>
+              <td>{{ entry.workoutType }}</td>
+              <td>{{ entry.caloriesBurned }}</td>
+              <td>{{ entry.distance }}</td>
+              <td>{{ entry.steps }}</td>
+              <td>{{ entry.weight }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mental-entries">
+    <h3>Mental Wellness Logs</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Mood Rating</th>
+            <th>Stress Level</th>
+            <th>Bed Time</th>
+            <th>Wake Time</th>
+            <th>Screen Time</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entry of filteredMentalEntries; track entry.id) {
+            <tr>
+              <td>{{ entry.date | date:'shortDate' }}</td>
+              <td>{{ entry.moodRating }}/10</td>
+              <td>{{ entry.stressLevel }}/10</td>
+              <td>{{ entry.bedTime }}:00</td>
+              <td>{{ entry.wakeupTime }}:00</td>
+              <td>{{ entry.screenTime }}h</td>
+              <td>{{ entry.notes }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="meal-entries">
+    <h3>Meal Logs</h3>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Meal Type</th>
+            <th>Description</th>
+            <th>Calories</th>
+            <th>Water (L)</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entry of filteredMealEntries; track entry.id) {
+            <tr>
+              <td>{{ entry.date | date:'shortDate' }}</td>
+              <td>{{ entry.mealType }}</td>
+              <td>{{ entry.description }}</td>
+              <td>{{ entry.calories }}</td>
+              <td>{{ entry.water }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
