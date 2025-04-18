@@ -9,5 +9,8 @@ import { RouterOutlet } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  onVideosClick() {
+    console.log('Videos link clicked!');
+  }
   title = 'your-angular-project';
 }
