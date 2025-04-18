@@ -8,10 +8,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
-  standalone: true,  
+  standalone: true,
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
-  imports: [FormsModule, RouterModule, CommonModule, HttpClientModule]  
+  imports: [FormsModule, RouterModule, CommonModule, HttpClientModule]
 })
 export class SignupComponent {
   username: string = '';
@@ -34,7 +34,7 @@ export class SignupComponent {
       emailId: this.emailId,
       password: this.password,
       firstName: this.firstName,
-      lastName: this.lastName 
+      lastName: this.lastName
     };
 
     this.authService.signup(user).subscribe(

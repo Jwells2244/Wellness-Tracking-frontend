@@ -1,0 +1,63 @@
+<div class="main-wrapper full-dark-mode" style="background-color: #0e1014; color: #ffffff;">
+  <!-- Fitness Rings Section -->
+  <div class="chart-row">
+    <div class="chart-card blue" style="background-color: #1c1f26;">
+      <canvas baseChart [data]="caloriesData" [options]="chartOptions" [type]="chartType"></canvas>
+      <div class="center-label">
+        <div>Calories</div>
+        <small>{{ caloriesBurned }} kcal</small>
+        <div class="emoji-feedback">🔥</div>
+      </div>
+    </div>
+    <div class="chart-card green" style="background-color: #1c1f26;">
+      <canvas baseChart [data]="exerciseData" [options]="chartOptions" [type]="chartType"></canvas>
+      <div class="center-label">
+        <div>Exercise</div>
+        <small>{{ exerciseMinutes }} min</small>
+        <div class="emoji-feedback">💪</div>
+      </div>
+    </div>
+    <div class="chart-card purple" style="background-color: #1c1f26;">
+      <canvas baseChart [data]="standData" [options]="chartOptions" [type]="chartType"></canvas>
+      <div class="center-label">
+        <div>Stand</div>
+        <small>{{ standHours }} hrs</small>
+        <div class="emoji-feedback">🧍‍♂️</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calorie Goal Input -->
+  <div class="goal-input" style="background-color: #1c1f26; color: #ffffff;">
+    <label for="calorieGoal">Set Daily Calorie Goal:</label>
+    <app-goal-input (goalChanged)="updateCalorieGoal($event)"></app-goal-input>
+  </div>
+
+  <!-- Progress Runner (Clean & Fullscreen) -->
+  <div class="runner-box" style="background-color: #1c1f26;">
+    <div class="goal-marker centered-text" style="color: #facc15">{{ calorieGoal }} kcal</div>
+    <img class="runner centered" src="https://media.tenor.com/WBXa6Ot2nHIAAAAi/boy-running.gif" alt="running boy" />
+  </div>
+
+  <!-- Stats Charts Section -->
+  <div class="stats-section">
+    <div class="section-header">
+      <h3>{{ isDailyView ? 'Hourly Calories (Today)' : 'Weekly Overview' }}</h3>
+      <button (click)="toggleView()">→</button>
+    </div>
+
+    <div class="stats-charts">
+      <div *ngIf="isDailyView" class="chart-container" style="background-color: #1c1f26;">
+        <canvas baseChart [data]="dailyCaloriesData" [options]="dailyCaloriesOptions" [type]="'line'"></canvas>
+      </div>
+
+      <div *ngIf="!isDailyView" class="chart-container" style="background-color: #1c1f26;">
+        <canvas baseChart [data]="weeklyBarData" [options]="weeklyBarOptions" [type]="'bar'"></canvas>
+      </div>
+
+      <div class="chart-container" style="background-color: #1c1f26;">
+        <canvas baseChart [data]="weeklyLineData" [options]="weeklyLineOptions" [type]="'line'"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
