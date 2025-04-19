@@ -11,6 +11,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { ActivityDashboardComponent } from './activity-dashboard/activity-dashboard.component';
 import { TwoFactorChoiceComponent } from './signup/two-fa-choice/two-fa-choice.component';
 import { TwoFaSetupComponent } from './signup/two-fa-setup/two-fa-setup.component';
+import { TwoFaLoginComponent } from './login/two-fa-login/two-fa-login.component';
+
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,6 +23,7 @@ export const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: '2fa-choice', component: TwoFactorChoiceComponent },
   { path: '2fa-setup', component: TwoFaSetupComponent },
+  { path: '2fa-login', component: TwoFaLoginComponent },
   { path: 'activity-dashboard', component: ActivityDashboardComponent, canActivate: [AuthGuard] },
   { path: 'entries-form', component: EntriesFormComponent, canActivate: [AuthGuard] },
   { path: 'wellbeing-list', component: WellbeingListComponent, canActivate: [AuthGuard] }

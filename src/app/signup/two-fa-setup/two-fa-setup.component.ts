@@ -21,6 +21,7 @@ export class TwoFaSetupComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
   generate2FA() {
+    console.log("📨 Requesting QR with email:", this.email);
     this.http.get<any>(`/api/2fa/generate?email=${this.email}`).subscribe({
       next: (res) => {
         this.secret = res.secret;
@@ -39,8 +40,21 @@ export class TwoFaSetupComponent {
     }).subscribe({
       next: (res) => {
         if (res.valid) {
-          alert('2FA setup complete. You may now log in.');
-          this.router.navigate(['/login']);
+          console.log("📤 Sending email and secret to backend:", this.email, this.secret);
+          this.http.post('/api/users/set-totp-secret', {
+            email: this.email,
+            secret: this.secret
+          }, {responseType: 'text' })
+          .subscribe({
+            next: (res) => {
+              console.log('Secret saved, response: ' + res);
+              alert('2FAsetup complete. You may now log in.');
+              this.router.navigate(['/login']);
+            },
+            error: () => {
+              this.errorMessage = 'Could not save 2FA secret. Try again.';
+            }
+          });
         } else {
           this.errorMessage = 'Invalid authenticator code. Try again.';
         }

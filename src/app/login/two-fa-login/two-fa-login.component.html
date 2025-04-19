@@ -1,0 +1,11 @@
+<div class="container">
+  <h2>Two-Factor Authentication</h2>
+  <p>Please enter the code from your authenticator app.</p>
+
+  <form (submit)="onSubmit()">
+    <input type="text" [(ngModel)]="totpCode" name="code" placeholder="6-digit code" required />
+    <button type="submit">Verify</button>
+  </form>
+
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+</div>
