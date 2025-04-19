@@ -4,9 +4,6 @@ import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -59,7 +56,6 @@ export class AuthService {
   logout() {
     localStorage.removeItem('authToken');
   }
-<<<<<<< HEAD
   // ✅ Store User Info After Login
 storeUser(user: any) {
   
@@ -72,8 +68,4 @@ getUser(): any {
   const userData = localStorage.getItem('user');
   return userData ? JSON.parse(userData) : null;
 }
-
 }
-=======
-}
->>>>>>> 5a5e10ad2fb040e43af1f70c612ddbc4c6774e11

@@ -10,16 +10,9 @@ import { AuthInterceptor } from './app/auth.intercepter'; // adjust the path if 
 bootstrapApplication(AppComponent, {
   ...appConfig,
   providers: [
-<<<<<<< HEAD
     ...appConfig.providers,
-    importProvidersFrom(RouterModule.forRoot(routes))
-  ]
-}).catch(err => console.error(err));
-=======
-    ...appConfig.providers, 
     importProvidersFrom(RouterModule.forRoot(routes)),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     provideRouter(routes)
   ]
 }).catch(err => console.error(err));
->>>>>>> 5a5e10ad2fb040e43af1f70c612ddbc4c6774e11
