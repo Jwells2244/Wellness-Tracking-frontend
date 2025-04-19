@@ -26,6 +26,9 @@ export class LoginComponent {
         if (response && response.token) {
           this.authService.storeToken(response.token);
           alert('✅ Login Successful!');
+          this.authService.storeUser(response.user); 
+          console.log('🟢 Login response:', response);
+
           this.router.navigate(['/entries-form']);
         } else {
           alert('❌ Invalid credentials.');

@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
+
+
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +33,16 @@ export class AuthService {
   // ✅ Store JWT Token After Login
   storeToken(token: string) {
     localStorage.setItem('authToken', token);
+
+    try {
+      const decoded: any = jwtDecode(token);
+      // Save just the username (sub field) as the "user"
+      if (decoded && decoded.sub) {
+        this.storeUser({ name: decoded.sub }); // ✅ this is your username
+      }
+    } catch (err) {
+      console.error('❌ Failed to decode token', err);
+    }
   }
 
   // ✅ Get Token for Authentication
@@ -44,4 +59,21 @@ export class AuthService {
   logout() {
     localStorage.removeItem('authToken');
   }
+<<<<<<< HEAD
+  // ✅ Store User Info After Login
+storeUser(user: any) {
+  
+
+  localStorage.setItem('user', JSON.stringify(user));
 }
+
+// ✅ Get Stored User
+getUser(): any {
+  const userData = localStorage.getItem('user');
+  return userData ? JSON.parse(userData) : null;
+}
+
+}
+=======
+}
+>>>>>>> 5a5e10ad2fb040e43af1f70c612ddbc4c6774e11

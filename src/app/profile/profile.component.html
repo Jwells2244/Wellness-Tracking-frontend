@@ -1,0 +1,20 @@
+<div class="profile-layout">
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar">
+      <div class="profile-photo">
+        <img src="https://via.placeholder.com/100" alt="Profile Photo" />
+        <p>{{ userName }}</p>
+      </div>
+  
+      <button class="toggle-btn" (click)="toggleTheme()">Toggle Theme</button>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  
+    <!-- RIGHT CONTENT AREA -->
+    <div class="main-content">
+      <div class="main-wrapper">
+        <app-visualizer></app-visualizer>
+      </div>
+    </div>
+  </div>
+  
