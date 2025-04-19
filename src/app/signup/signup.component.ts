@@ -8,10 +8,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
-  standalone: true,  
+  standalone: true,
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
-  imports: [FormsModule, RouterModule, CommonModule, HttpClientModule]  
+  imports: [FormsModule, RouterModule, CommonModule, HttpClientModule]
 })
 export class SignupComponent {
   username: string = '';
@@ -29,23 +29,28 @@ export class SignupComponent {
       return;
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.emailId)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     const user = {
       username: this.username,
       emailId: this.emailId,
       password: this.password,
       firstName: this.firstName,
-      lastName: this.lastName 
+      lastName: this.lastName
     };
 
-    this.authService.signup(user).subscribe(
-      response => {
-        alert('✅ Signup successful! Please log in.');
-        this.router.navigate(['/login']);
+    this.authService.signup(user).subscribe({
+      next: () => {
+        this.router.navigate(['/2fa-choice']);
       },
-      error => {
-        console.error('❌ Signup error:', error);
-        alert('❌ Signup failed. Please try again.');
+      error: (error) => {
+        console.error('Signup error:', error);
+        alert('Signup failed. Please try again.');
       }
-    );
+    });
   }
 }

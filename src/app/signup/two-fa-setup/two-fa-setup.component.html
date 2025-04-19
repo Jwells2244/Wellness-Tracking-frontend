@@ -1,0 +1,19 @@
+<h2>Two-Factor Authentication Setup</h2>
+
+<label for="email">Email:</label>
+<input [(ngModel)]="email" id="email" type="email" />
+
+<button (click)="generate2FA()">Generate QR Code</button>
+
+<div *ngIf="qrCodeUrl">
+  <p>Scan this QR code in your authenticator app:</p>
+  <img [src]="qrCodeUrl" alt="2FA QR Code" />
+</div>
+
+<div *ngIf="secret">
+  <label for="code">Enter code from app:</label>
+  <input [(ngModel)]="totpCode" id="code" type="text" />
+  <button (click)="verifyCode()">Verify</button>
+</div>
+
+<p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
