@@ -112,11 +112,14 @@
       Wellness Bot
       <span class="close-btn" (click)="toggleChatbot()">×</span>
     </div>
-    <div class="chatbot-messages">
+    <div class="chatbot-messages" #messageContainer>
       <div *ngFor="let msg of chatMessages">
         <div [ngClass]="{ 'user-msg': msg.from === 'user', 'bot-msg': msg.from === 'bot' }">
           {{ msg.text }}
         </div>
+      </div>
+      <div *ngIf="loadingResponse" class="bot-msg loading-indicator">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
       </div>
     </div>
     <div class="chatbot-input">
