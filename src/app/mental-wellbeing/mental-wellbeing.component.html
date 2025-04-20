@@ -1,0 +1,17 @@
+<div class="mental-wellbeing-container">
+  <h2>Log Mental Wellbeing</h2>
+  <form (submit)="logEntry()">
+    <label>Mood Rating (1-10)</label>
+    <input type="number" [(ngModel)]="entry.moodRating" min="1" max="10" required />
+    <textarea [(ngModel)]="entry.notes" placeholder="Notes"></textarea>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Your Mental Wellbeing Logs</h3>
+  <ul>
+    <li *ngFor="let entry of entries">
+      <strong>Mood: {{ entry.moodRating }}</strong>
+      <p>{{ entry.notes }}</p>
+    </li>
+  </ul>
+</div>

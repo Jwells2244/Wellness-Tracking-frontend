@@ -1,0 +1,22 @@
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 1rem 0;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  margin-top: 1rem;
+}

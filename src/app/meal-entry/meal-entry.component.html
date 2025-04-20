@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="form-container">
+    <h2>Login</h2>
+    <div class="tab-container">
+      <button class="tab-button" [class.active]="selectedTab === 'admin'" (click)="selectTab('admin')">Admin</button>
+      <button class="tab-button" [class.active]="selectedTab === 'client'" (click)="selectTab('client')">Client</button>
+      <button class="tab-button" [class.active]="selectedTab === 'trainer'" (click)="selectTab('trainer')">Trainer</button>
+    </div>
+    <div class="form">
+    <form (submit)="onSubmit()" *ngIf="selectedTab">
+      <input class="input-field" type="email" placeholder="Email" [(ngModel)]="email" name="email" required />
+      <input class="input-field" type="password" placeholder="Password" [(ngModel)]="password" name="password" required />
+
+      <!-- Conditionally render fields based on role selection -->
+      <div *ngIf="selectedTab === 'admin'">
+        <input class="input-field" type="text" placeholder="Admin ID" [(ngModel)]="adminId" name="adminId" required />
+      </div>
+
+      <div *ngIf="selectedTab === 'client'">
+        <input class="input-field" type="text" placeholder="Client ID" [(ngModel)]="clientId" name="clientId" required />
+      </div>
+
+      <div *ngIf="selectedTab === 'trainer'">
+        <input class="input-field" type="text" placeholder="Trainer ID" [(ngModel)]="trainerId" name="trainerId" required />
+      </div>
+
+      <input type="submit" class="button" value="Login">
+    </form>
+    </div>
+
+    <div class="footer">
+      <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .tab-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .tab-button {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 0 5px;
+    font-size: 16px;
+  }
+
+  .tab-button.active {
+    background-color: #2196F3;
+    color: white;
+  }
+
+  .input-field {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+  }
+</style>

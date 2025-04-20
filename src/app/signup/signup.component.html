@@ -1,0 +1,35 @@
+
+<div class="container">
+  <div class="form-container">
+    <h2>Sign Up</h2>
+    <form (submit)="onSubmit()">
+      <input class="input-field" type="text" placeholder="Username" [(ngModel)]="username" name="username" required />
+
+      <input class="input-field" type="email" placeholder="Email" [(ngModel)]="emailId" name="emailId" required />
+
+      <input class="input-field" type="password" placeholder="Password" [(ngModel)]="password" name="password" minlength=5 maxlength=30 required />
+
+      <input class="input-field" type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" name="confirmPassword" required />
+
+      <input class="input-field" type="text" placeholder="FirstName" [(ngModel)]="firstName" name="firstName" required />
+
+      <input class="input-field" type="text" placeholder="LastName" [(ngModel)]="lastName" name="lastName" required />
+
+      <!-- <select class="input-field1" [(ngModel)]="selectedCategory" name="selectedCategory" required>
+        <option value="" disabled selected>Select Category</option>
+        <option value="admin">Admin</option>
+        <option value="client">Client</option>
+        <option value="trainer">Trainer</option>
+      </select> -->
+
+
+      <button type="submit" class="button">Sign Up</button>
+    </form>
+
+    <div class="footer">
+      <p>Already have an account? <a routerLink="/login">Login</a></p>
+    </div>
+  </div>
+</div>
+
+
