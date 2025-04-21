@@ -1,11 +1,12 @@
 <div class="container">
+  <div class="image-container"></div>
+
   <div class="form-container">
     <h2>Login</h2>
 
     <form (submit)="onSubmit()">
       <input class="input-field" type="text" placeholder="Username" [(ngModel)]="username" name="username" required />
       <input class="input-field" type="password" placeholder="Password" [(ngModel)]="password" name="password" required />
-
       <input type="submit" class="button" value="Login">
     </form>
 

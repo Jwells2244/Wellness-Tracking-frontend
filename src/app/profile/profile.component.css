@@ -1,55 +1,128 @@
 .profile-layout {
-    display: flex;
-    min-height: 100vh;
-    background: #f9f9f9;
-  }
-  
-  /* Sidebar */
-  .sidebar {
-    width: 250px;
-    background: #2d2d2d;
-    color: white;
-    padding: 2rem 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-  }
-  
-  .profile-photo img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #fff;
-  }
-  
-  .profile-photo p {
-    margin-top: 0.5rem;
-    font-weight: bold;
-  }
-  
-  .toggle-btn,
-  .logout-btn {
-    padding: 10px 20px;
-    border: none;
-    background-color: #ff6b6b;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    width: 100%;
-  }
-  
-  .toggle-btn:hover,
-  .logout-btn:hover {
-    background-color: #e63946;
-  }
-  
-  /* Main visualizer content */
-  .main-content {
-    flex: 1;
-    padding: 2rem;
-    overflow-y: auto;
-  }
-  
+  width: 100%;
+  height: 100%;
+  background-color: #0e1014;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  /* box-sizing: border-box; */
+}
+
+/* Set universal background and eliminate scroll bleed */
+html, body {
+  background-color: #0e1014;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+}
+html{
+  overflow-anchor: none;
+}
+
+body {
+  overflow-y: auto;
+}
+
+/* Prevent outermost white scroll exposure */
+:host {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-color: #0e1014;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure main-content and its children don’t stretch */
+.main-content {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  padding:0 ;
+  box-sizing: border-box;
+  background-color: #0e1014;
+  color: #e5e7eb;
+  /* Added by Meg */
+  display: flex;
+  flex-direction: column;
+  align-items: center;           
+  justify-content: flex-start;
+}
+
+/* Optional: make all direct children of main-content respect bounds */
+.main-content > * {
+  /* max-width: 100%;  Removed by Meg*/
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: #1a1a1a;
+  color: white;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  box-sizing: border-box;
+}
+
+.profile-photo img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+}
+
+.profile-photo p {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.toggle-btn,
+.logout-btn {
+  padding: 10px 20px;
+  border: none;
+  background-color: #ff6b6b;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  width: 100%;
+}
+
+.toggle-btn:hover,
+.logout-btn:hover {
+  background-color: #e63946;
+}
+.upload-label {
+  cursor: pointer;
+}
+
+.clickable {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  transition: transform 0.3s ease;
+}
+
+.clickable:hover {
+  transform: scale(1.05);
+}
+
+
+/* body::-webkit-scrollbar {
+  display: none;
+} */

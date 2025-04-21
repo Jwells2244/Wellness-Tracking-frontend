@@ -1,12 +1,15 @@
+
 <div class="profile-layout">
     <!-- LEFT SIDEBAR -->
     <div class="sidebar">
       <div class="profile-photo">
-        <img src="https://via.placeholder.com/100" alt="Profile Photo" />
-        <p>{{ userName }}</p>
+        <label for="photoUpload" class="upload-label">
+          <img alt="Profile Photo" class="clickable" />
+        </label>
+        <p>{{      userName }}</p>
+
       </div>
   
-      <button class="toggle-btn" (click)="toggleTheme()">Toggle Theme</button>
       <button class="logout-btn" (click)="logout()">Logout</button>
     </div>
   
@@ -17,4 +20,3 @@
       </div>
     </div>
   </div>
-  

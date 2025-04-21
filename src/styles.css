@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+/* Default light mode */
+body {
+    margin: 0px;
+    background-color: #f5f5f5;
+    color: #1a1a1a;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* ✅ Correct dark theme targeting */
+  body.dark-theme {
+    background-color: #0e1014;
+    color: #ffffff;
+  }
+  
+  body.dark-theme .sidebar {
+    background-color: #1c1f26;
+  }
+  
+  body.dark-theme .main-content {
+    background-color: #0e1014;
+  }
+  

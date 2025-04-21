@@ -10,7 +10,7 @@ import { AppBarComponent } from '../app-bar/app-bar.component';
   templateUrl: './entries-form.component.html',
   styleUrls: ['./entries-form.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, AppBarComponent],
+  imports: [CommonModule, FormsModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } // 👉 ADD THIS
   ]

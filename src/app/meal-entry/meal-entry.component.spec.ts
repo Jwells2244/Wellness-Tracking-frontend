@@ -1,7 +1,7 @@
 // meal-entry.component.spec.ts
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MealEntryComponent } from './meal-entry.component';
-import { MealEntryService } from 'meal-entry.service';
+import { MealEntryService } from './meal-entry.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 

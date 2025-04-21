@@ -66,6 +66,20 @@ storeUser(user: any) {
 // ✅ Get Stored User
 getUser(): any {
   const userData = localStorage.getItem('user');
-  return userData ? JSON.parse(userData) : null;
+  console.log('userData:', userData); // Debugging line
+  // ✅ Check if userData is missing or literally the string "undefined"
+  if (!userData || userData === 'undefined') {
+    console.warn('⚠️ No user data found in localStorage');
+    return null;
+  }
+
+  try {
+    return JSON.parse(userData);
+  } catch (e) {
+    console.error('❌ Invalid user data in localStorage', e);
+    return null;
+  }
 }
+
+
 }
