@@ -1,19 +1,25 @@
-<h2>Two-Factor Authentication Setup</h2>
+<div class="container">
+    <div class="image-container"></div>
 
-<label for="email">Email:</label>
-<input [(ngModel)]="email" id="email" type="email" />
+    <div class="form-container">
+        <h2>Two-Factor Authentication Setup</h2>
 
-<button (click)="generate2FA()">Generate QR Code</button>
+        <label class="label" for="email">Email:</label>
+        <input class="input-field" [(ngModel)]="email" id="email" type="email" placeholder="you@example.com" />
 
-<div *ngIf="qrCodeUrl">
-  <p>Scan this QR code in your authenticator app:</p>
-  <img [src]="qrCodeUrl" alt="2FA QR Code" />
+        <button class="button" (click)="generate2FA()">Generate QR Code</button>
+
+        <div *ngIf="qrCodeUrl" class="qr-section">
+            <p class="description">Scan this QR code in your authenticator app:</p>
+            <img [src]="qrCodeUrl" alt="2FA QR Code" class="qr-image" />
+        </div>
+
+        <div *ngIf="secret">
+            <label class="label" for="code">Enter code from app:</label>
+            <input class="input-field" [(ngModel)]="totpCode" id="code" type="text" placeholder="123456" />
+            <button class="button" (click)="verifyCode()">Verify</button>
+        </div>
+
+        <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+    </div>
 </div>
-
-<div *ngIf="secret">
-  <label for="code">Enter code from app:</label>
-  <input [(ngModel)]="totpCode" id="code" type="text" />
-  <button (click)="verifyCode()">Verify</button>
-</div>
-
-<p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>

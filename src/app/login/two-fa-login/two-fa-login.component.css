@@ -1,22 +1,106 @@
 .container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+}
+
+/* Image Side */
+.image-container {
+  margin-left: 10%;
+  flex: 0.5;
+  background-image: url('../../../assets/home3.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+/* Form Styling */
+.form-container {
+  flex: 0.6;
+  max-height: 500px;
   max-width: 400px;
-  margin: auto;
-  padding: 2rem;
+  margin-left: 10%;
+  margin-top: 8%;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 16px;
+  background-color: #f5f4f4;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Typography */
+h2 {
+  margin-bottom: 15px;
+  font-size: 28px;
+  color: #022c21;
   text-align: center;
 }
 
-input {
-  width: 100%;
-  padding: 0.5rem;
-  margin: 1rem 0;
+.description {
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
-button {
-  padding: 0.5rem 1rem;
+/* Input Field */
+.input-field {
+  width: 90%;
+  padding: 12px 10px;
+  margin-bottom: 18px;
+  margin-left: 5%;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border: 1px solid #a1f7d6;
+  box-shadow: 0 0 5px rgba(202, 241, 226, 0.5);
+}
+
+/* Submit Button */
+.button {
+  padding: 12px 20px;
+  background-color: #03ca7e;
+  color: white;
+  font-weight: bold;
+  margin-left: 30%;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.button:hover {
+  background-color: #029e60;
+  transform: translateY(-2px);
+}
+
+/* Error Message */
 .error {
   color: red;
-  margin-top: 1rem;
+  font-size: 14px;
+  margin-top: 15px;
+  text-align: center;
 }

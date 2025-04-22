@@ -1,5 +1,16 @@
-<h2>Two-Factor Authentication</h2>
-<p>Would you like to set up 2FA now or skip for later?</p>
+<head>
+    <link rel="stylesheet" href="two-fa-choice.component.css">
+</head>
+<div class="container">
+    <div class="image-container"></div>
 
-<button (click)="goTo2FASetup()">Set Up 2FA</button>
-<button (click)="skipToLogin()">Skip for Now</button>
+    <div class="form-container">
+        <h2>Two-Factor Authentication</h2>
+        <p class="description">Would you like to set up 2FA now or skip for later?</p>
+
+        <div class="button-wrapper">
+            <button class="button" (click)="goTo2FASetup()">Set Up 2FA</button>
+            <button class="button skip-button" (click)="skipToLogin()">Skip for Now</button>
+        </div>
+    </div>
+</div>
