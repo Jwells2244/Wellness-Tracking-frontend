@@ -72,7 +72,7 @@
               <td>{{ entry.screenTime }}h</td>
               <td>{{ entry.notes }}</td>
               <td>
-                <button (click)="confirmDelete('physical', entry.id)">🗑️</button>
+                <button (click)="confirmDelete('mental', entry.id)">🗑️</button>
               </td>
               
             </tr>
@@ -105,7 +105,7 @@
               <td>{{ entry.calories }}</td>
               <td>{{ entry.water }}</td>
               <td>
-                <button (click)="confirmDelete('physical', entry.id)">🗑️</button>
+                <button (click)="confirmDelete('meal', entry.id)">🗑️</button>
               </td>
               
             </tr>
