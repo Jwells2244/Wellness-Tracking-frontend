@@ -21,7 +21,7 @@
   font-size: 18px;
   border: none;
   border-radius: 8px;
-  background-color: rgba(6, 174, 146, 0.8);
+  background-color: #03ca7e;
   color: #333;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -31,6 +31,6 @@
   margin-left: 15px; 
 }
 .button-home:hover {
-  background-color: #55655f;
+  background-color:#029e60;
   color: white;
 }

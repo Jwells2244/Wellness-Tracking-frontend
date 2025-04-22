@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +15,11 @@ export class AuthGuard implements CanActivate {
 
     if (isLoggedIn) {
       console.log('Navigating to wellbeing-list (Videos)...');
-      return true; // Allow access
+      return true; 
     } else {
       console.log('User is not logged in. Redirecting to login...');
       this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-      return false; // Block access
+      return false; 
     }
   }
 }

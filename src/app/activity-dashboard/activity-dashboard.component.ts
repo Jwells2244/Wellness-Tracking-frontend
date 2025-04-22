@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angula
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { WellnessService } from '../activity.service';
 import { MealEntry, MentalEntry, PhysicalEntry } from '../activity.model';
 import { AppBarComponent } from '../app-bar/app-bar.component';
+import { API_BASE_URL } from '../constants';
+import { WellnessService } from '../services/activity.service';
 
 @Component({
   selector: 'app-activity-dashboard',
@@ -25,7 +26,6 @@ export class ActivityDashboardComponent implements OnInit {
   searchTerm: string = '';
   selectedDate: string = '';
 
-  // Chatbot-related properties
   isChatbotOpen: boolean = false;
   chatInput: string = '';
   chatMessages: { from: 'user' | 'bot', text: string }[] = [];
@@ -56,6 +56,32 @@ export class ActivityDashboardComponent implements OnInit {
     });
   }
 
+  confirmDelete(type: 'physical' | 'mental' | 'meal', id: number) {
+    const confirmed = confirm('Are you sure you want to delete this entry?');
+    if (!confirmed) return;
+  
+    if (type === 'physical') {
+      this.wellnessService.deletePhysicalEntry(id).subscribe(() => {
+        this.physicalEntries = this.physicalEntries.filter(entry => entry.id !== id);
+        this.filteredPhysicalEntries = this.filteredPhysicalEntries.filter(entry => entry.id !== id);
+      });
+    }
+  
+    if (type === 'mental') {
+      this.wellnessService.deleteMentalEntry(id).subscribe(() => {
+        this.mentalEntries = this.mentalEntries.filter(entry => entry.id !== id);
+        this.filteredMentalEntries = this.filteredMentalEntries.filter(entry => entry.id !== id);
+      });
+    }
+  
+    if (type === 'meal') {
+      this.wellnessService.deleteMealEntry(id).subscribe(() => {
+        this.mealEntries = this.mealEntries.filter(entry => entry.id !== id);
+        this.filteredMealEntries = this.filteredMealEntries.filter(entry => entry.id !== id);
+      });
+    }
+  }
+  
   applyFilters() {
     const term = this.searchTerm.toLowerCase();
     const date = this.selectedDate;
@@ -99,6 +125,14 @@ ngAfterViewInit() {
   this.scrollToBottom();
 }
 
+formatTime(numericTime: number | string): string {
+  const timeString = numericTime.toString().padStart(4, '0'); // '835' -> '0835'
+  const hours = timeString.slice(0, 2);
+  const minutes = timeString.slice(2, 4);
+  return `${hours}:${minutes}`;
+}
+
+
 private scrollToBottom(): void {
   try {
     this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
@@ -123,7 +157,7 @@ private scrollToBottom(): void {
     setTimeout(() => this.scrollToBottom(), 0);
     const requestData = { messages: [{ role: 'user', content: userMsg }] };
   
-    this.http.post<any>('http://localhost:8080/api/groq-response', requestData).subscribe({
+    this.http.post<any>(`${API_BASE_URL}/api/groq-response`, requestData).subscribe({
       next: (response) => {
         this.loadingResponse = false;
         if (response && response.reply) {

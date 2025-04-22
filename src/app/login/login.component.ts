@@ -1,22 +1,27 @@
-// Login Component
 import { Component } from '@angular/core';
-import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
+  standalone: true,
   imports: [FormsModule, RouterModule, CommonModule]
 })
 export class LoginComponent {
-  username: string = '';  // ✅ Match form input
+  username: string = '';  
   password: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}  // ✅ Inject AuthService
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   onSubmit() {
     console.log('🔵 Sending login request with:', this.username, this.password);
@@ -29,15 +34,24 @@ export class LoginComponent {
         } else if (response?.token) {
           this.authService.storeToken(response.token);
           this.authService.storeUser(response.user);
-          alert('✅ Login Successful!');
-          this.router.navigate(['/entries-form']);
+          this.snackBar.open('✅ Login Successful!', 'Close', {
+            duration: 3000,
+            panelClass: ['snack-success']
+          });
+          this.router.navigate(['/activity-dashboard']);
         } else {
-          alert('❌ Invalid credentials.');
+          this.snackBar.open('❌ Invalid credentials.', 'Close', {
+            duration: 3000,
+            panelClass: ['snack-error']
+          });
         }
       },
       (error: any) => {
         console.error('🔴 Login error:', error);
-        alert('❌ Login Failed! Invalid credentials.');
+        this.snackBar.open('❌ Login Failed! Invalid credentials.', 'Close', {
+          duration: 3000,
+          panelClass: ['snack-error']
+        });
       }
     );
   }

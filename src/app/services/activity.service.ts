@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { MealEntry, MentalEntry, PhysicalEntry } from './activity.model';
+import { API_BASE_URL } from '../constants';
+import { MealEntry, MentalEntry, PhysicalEntry } from '../activity.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WellnessService {
-  private baseUrl = 'http://localhost:8080/api/user';
+  private baseUrl = `${API_BASE_URL}/api/user`;
 
   constructor(private http: HttpClient) { }
 
@@ -21,5 +22,18 @@ export class WellnessService {
 
   getMealEntries(): Observable<MealEntry[]> {
     return this.http.get<MealEntry[]>(`${this.baseUrl}/meals/logs`);
+  }
+
+   // Delete entries
+   deletePhysicalEntry(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/physical-wellbeing/logs/${id}`);
+  }
+
+  deleteMentalEntry(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/mental-wellbeing/logs/${id}`);
+  }
+
+  deleteMealEntry(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/meals/logs/${id}`);
   }
 }

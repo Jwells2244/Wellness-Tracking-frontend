@@ -12,7 +12,7 @@
   </div>
 
   <section class="physical-entries">
-    <h3>Physical Activity Logs</h3>
+    <h3>Physical Activity</h3>
     <div class="table-container">
       <table>
         <thead>
@@ -23,6 +23,7 @@
             <th>Distance (km)</th>
             <th>Steps</th>
             <th>Weight (kg)</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -34,6 +35,9 @@
               <td>{{ entry.distance }}</td>
               <td>{{ entry.steps }}</td>
               <td>{{ entry.weight }}</td>
+              <td>
+                <button class="delete-btn" (click)="confirmDelete('physical', entry.id)">🗑️</button>
+              </td>                          
             </tr>
           }
         </tbody>
@@ -42,7 +46,7 @@
   </section>
 
   <section class="mental-entries">
-    <h3>Mental Wellness Logs</h3>
+    <h3>Mental Wellness</h3>
     <div class="table-container">
       <table>
         <thead>
@@ -51,9 +55,10 @@
             <th>Mood Rating</th>
             <th>Stress Level</th>
             <th>Bed Time</th>
-            <th>Wake Time</th>
+            <th>Wakeup Time</th>
             <th>Screen Time</th>
             <th>Notes</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -62,10 +67,14 @@
               <td>{{ entry.date | date:'shortDate' }}</td>
               <td>{{ entry.moodRating }}/10</td>
               <td>{{ entry.stressLevel }}/10</td>
-              <td>{{ entry.bedTime }}:00</td>
-              <td>{{ entry.wakeupTime }}:00</td>
+              <td>{{ formatTime(entry.bedTime) }}</td>
+              <td>{{ formatTime(entry.wakeupTime) }}</td>
               <td>{{ entry.screenTime }}h</td>
               <td>{{ entry.notes }}</td>
+              <td>
+                <button (click)="confirmDelete('physical', entry.id)">🗑️</button>
+              </td>
+              
             </tr>
           }
         </tbody>
@@ -74,7 +83,7 @@
   </section>
 
   <section class="meal-entries">
-    <h3>Meal Logs</h3>
+    <h3>Meal</h3>
     <div class="table-container">
       <table>
         <thead>
@@ -84,6 +93,7 @@
             <th>Description</th>
             <th>Calories</th>
             <th>Water (L)</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -94,6 +104,10 @@
               <td>{{ entry.description }}</td>
               <td>{{ entry.calories }}</td>
               <td>{{ entry.water }}</td>
+              <td>
+                <button (click)="confirmDelete('physical', entry.id)">🗑️</button>
+              </td>
+              
             </tr>
           }
         </tbody>

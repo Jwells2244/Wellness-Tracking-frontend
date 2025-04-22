@@ -100,6 +100,18 @@ h2 {
   background-color: #029e60;
   transform: translateY(-2px);
 }
+
+.snack-success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.snack-error {
+  background-color: #f44336;
+  color: white;
+}
+
+
 .footer {
   margin-top: 20px;
   font-size: 14px;

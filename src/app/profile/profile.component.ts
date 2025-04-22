@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service'; // Adjust path if needed
 import { VisualizerComponent } from '../visualizer/visualizer.component'; // Adjust path if needed
-import { ThemeService } from '../theme.service'; // Adjust path if needed
+import { ThemeService } from '../services/theme.service'; // Adjust path if needed
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-profile',
