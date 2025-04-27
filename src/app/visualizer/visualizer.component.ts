@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgChartsModule } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration, ChartData } from 'chart.js';
 import { GoalInputComponent } from '../goal-input/goal-input.component';
+import { HttpClient } from '@angular/common/http';
+import { API_BASE_URL } from '../constants';
 
 @Component({
   selector: 'app-visualizer',
@@ -11,12 +13,39 @@ import { GoalInputComponent } from '../goal-input/goal-input.component';
   templateUrl: './visualizer.component.html',
   styleUrls: ['./visualizer.component.css']
 })
-export class VisualizerComponent {
-  public calorieGoal: number = 500;
-  public caloriesBurned = 375;
-  public exerciseMinutes = 45;
-  public standHours = 10;
+export class VisualizerComponent implements OnInit {
+  public calorieGoal = 500;
+  public distanceGoal = 5;    // ✅ distance goal (km)
+  public stepsGoal = 10000;   // ✅ steps goal
+
+  public caloriesBurned = 0;
+  public distance = 0;
+  public stepsCount = 0;
+
   public isDailyView = true;
+  public showToast = false;
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.loadPhysicalEntries();
+  }
+
+  loadPhysicalEntries() {
+    this.http.get<any[]>(`${API_BASE_URL}/api/user/physical-wellbeing/logs`).subscribe({
+      next: entries => {
+        if (entries.length) {
+          const latest = entries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+          this.caloriesBurned = latest.caloriesBurned || 0;
+          this.distance = latest.distance || 0;
+          this.stepsCount = latest.steps || 0;
+          this.showToast = true;
+          setTimeout(() => this.showToast = false, 2000);
+        }
+      },
+      error: err => console.error('❌ Error fetching:', err)
+    });
+  }
 
   toggleView() {
     this.isDailyView = !this.isDailyView;
@@ -24,6 +53,12 @@ export class VisualizerComponent {
 
   updateCalorieGoal(newGoal: number) {
     this.calorieGoal = newGoal;
+
+    // 🔥 Update distance and steps goals dynamically too
+    this.distanceGoal = Math.round(newGoal / 1000 * 5); // Example: 5000 kcal → 25 km
+    this.stepsGoal = Math.round(newGoal * 2);            // Example: 5000 kcal → 10000 steps
+
+    console.log(`Updated Goals → Calories: ${this.calorieGoal}, Distance: ${this.distanceGoal}km, Steps: ${this.stepsGoal}`);
   }
 
   public chartType: 'doughnut' = 'doughnut';
@@ -31,173 +66,103 @@ export class VisualizerComponent {
   public chartOptions: ChartConfiguration<'doughnut'>['options'] = {
     responsive: true,
     cutout: '70%',
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        enabled: true,
-        callbacks: {
-          label: function (context) {
-            const label = context.label || '';
-            const value = context.raw;
-            return `${label}: ${value}`;
-          }
-        }
-      }
-    }
+    plugins: { legend: { display: false }, tooltip: { enabled: true } }
   };
 
   private getProgressColor(percent: number): string {
-    if (percent >= 100) return '#4ade80'; // Green
-    if (percent >= 60) return '#facc15';  // Yellow
-    return '#f87171';                     // Red
+    return percent >= 100 ? '#4ade80' : percent >= 60 ? '#facc15' : '#f87171';
   }
 
-  get goalReached(): boolean {
-    return this.caloriesBurned >= this.calorieGoal;
-  }
-
-  get caloriesData(): ChartConfiguration<'doughnut'>['data'] {
+  get caloriesData(): ChartData<'doughnut'> {
     const remaining = Math.max(this.calorieGoal - this.caloriesBurned, 0);
-    const percent = (this.caloriesBurned / this.calorieGoal) * 100;
     return {
-      labels: ['Calories Burned', 'Remaining'],
-      datasets: [
-        {
-          data: [this.caloriesBurned, remaining],
-          backgroundColor: [this.getProgressColor(percent), '#F0F0F0'],
-          borderWidth: 0
-        }
-      ]
+      datasets: [{
+        data: [this.caloriesBurned, remaining],
+        backgroundColor: [this.getProgressColor((this.caloriesBurned / this.calorieGoal) * 100), '#F0F0F0'],
+        borderWidth: 0
+      }]
     };
   }
 
-  get exerciseData(): ChartConfiguration<'doughnut'>['data'] {
-    const goal = Math.max(this.calorieGoal / 10, 1);
-    const remaining = Math.max(goal - this.exerciseMinutes, 0);
-    const percent = (this.exerciseMinutes / goal) * 100;
+  get distanceData(): ChartData<'doughnut'> {
+    const remaining = Math.max(this.distanceGoal - this.distance, 0);
     return {
-      labels: ['Exercise Minutes', 'Remaining'],
-      datasets: [
-        {
-          data: [this.exerciseMinutes, remaining],
-          backgroundColor: [this.getProgressColor(percent), '#F0F0F0'],
-          borderWidth: 0
-        }
-      ]
+      datasets: [{
+        data: [this.distance, remaining],
+        backgroundColor: [this.getProgressColor((this.distance / this.distanceGoal) * 100), '#F0F0F0'],
+        borderWidth: 0
+      }]
     };
   }
 
-  get standData(): ChartConfiguration<'doughnut'>['data'] {
-    const goal = Math.max(this.calorieGoal / 50, 1);
-    const remaining = Math.max(goal - this.standHours, 0);
-    const percent = (this.standHours / goal) * 100;
+  get stepsData(): ChartData<'doughnut'> {
+    const remaining = Math.max(this.stepsGoal - this.stepsCount, 0);
     return {
-      labels: ['Stand Hours', 'Remaining'],
-      datasets: [
-        {
-          data: [this.standHours, remaining],
-          backgroundColor: [this.getProgressColor(percent), '#F0F0F0'],
-          borderWidth: 0
-        }
-      ]
+      datasets: [{
+        data: [this.stepsCount, remaining],
+        backgroundColor: [this.getProgressColor((this.stepsCount / this.stepsGoal) * 100), '#F0F0F0'],
+        borderWidth: 0
+      }]
     };
   }
 
-  public dailyCaloriesData = {
+  public dailyCaloriesData: ChartData<'line'> = {
     labels: ['6 AM', '9 AM', '12 PM', '3 PM', '6 PM', '9 PM'],
-    datasets: [
-      {
-        label: 'Calories Burned',
-        data: [30, 60, 90, 50, 70, 40],
-        backgroundColor: '#FF6B6B'
-      }
-    ]
+    datasets: [{
+      label: 'Calories Burned',
+      data: [30, 60, 90, 50, 70, 40],
+      borderColor: '#FF6B6B',
+      fill: false,
+      tension: 0.4
+    }]
   };
 
-  public dailyCaloriesOptions = {
+  public dailyCaloriesOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
-    plugins: {
-      legend: { display: true },
-      tooltip: { enabled: true }
-    },
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
+    plugins: { legend: { display: true }, tooltip: { enabled: true } },
+    scales: { y: { beginAtZero: true } }
   };
 
-  public weeklyBarData = {
+  public weeklyBarData: ChartData<'bar'> = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [
-      {
-        label: 'Calories',
-        data: [420, 360, 390, 410, 400, 450, 380],
-        backgroundColor: '#FF6B6B'
-      },
-      {
-        label: 'Exercise',
-        data: [30, 25, 40, 35, 20, 45, 50],
-        backgroundColor: '#4BC0C0'
-      },
-      {
-        label: 'Stand',
-        data: [8, 9, 7, 6, 10, 11, 9],
-        backgroundColor: '#36A2EB'
-      }
+      { label: 'Calories', data: [420, 360, 390, 410, 400, 450, 380], backgroundColor: '#FF6B6B' },
+      { label: 'Distance (km)', data: [4, 5, 3.5, 6, 4.5, 5.5, 4], backgroundColor: '#4BC0C0' },
+      { label: 'Steps', data: [8000, 9000, 7000, 6000, 10000, 11000, 9000], backgroundColor: '#36A2EB' }
     ]
   };
 
   public weeklyBarOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
-    plugins: {
-      legend: { position: 'top' },
-      tooltip: { enabled: true }
-    },
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
+    plugins: { legend: { position: 'top' }, tooltip: { enabled: true } },
+    scales: { y: { beginAtZero: true } }
   };
 
-  public weeklyLineData = {
+  public weeklyLineData: ChartData<'line'> = {
     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
     datasets: [
-      {
-        label: 'Calories',
-        data: [2500, 2800, 2600, 2900],
-        borderColor: '#FF6B6B',
-        fill: false,
-        tension: 0.3
-      },
-      {
-        label: 'Exercise (min)',
-        data: [210, 240, 220, 250],
-        borderColor: '#4BC0C0',
-        fill: false,
-        tension: 0.3
-      },
-      {
-        label: 'Stand (hrs)',
-        data: [70, 75, 72, 78],
-        borderColor: '#36A2EB',
-        fill: false,
-        tension: 0.3
-      }
+      { label: 'Calories', data: [2500, 2800, 2600, 2900], borderColor: '#FF6B6B', fill: false, tension: 0.3 },
+      { label: 'Distance (km)', data: [25, 28, 26, 29], borderColor: '#4BC0C0', fill: false, tension: 0.3 },
+      { label: 'Steps', data: [70000, 75000, 72000, 78000], borderColor: '#36A2EB', fill: false, tension: 0.3 }
     ]
   };
 
+  get remainingCalories(): number {
+    return Math.max(this.calorieGoal - this.caloriesBurned, 0);
+  }
+  
+  get remainingDistance(): number {
+    return Math.max(this.distanceGoal - this.distance, 0);
+  }
+  
+  get remainingSteps(): number {
+    return Math.max(this.stepsGoal - this.stepsCount, 0);
+  }
+  
+
   public weeklyLineOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
-    plugins: {
-      legend: { display: true },
-      tooltip: { enabled: true }
-    },
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
+    plugins: { legend: { display: true }, tooltip: { enabled: true } },
+    scales: { y: { beginAtZero: true } }
   };
 }

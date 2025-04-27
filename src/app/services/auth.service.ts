@@ -30,18 +30,24 @@ export class AuthService {
 
   // ✅ Store JWT Token After Login
   storeToken(token: string) {
+    console.log('Saving token:', token);
     localStorage.setItem('authToken', token);
-
+  
     try {
       const decoded: any = jwtDecode(token);
-      // Save just the username (sub field) as the "user"
+      console.log('Decoded Token:', decoded);
+  
       if (decoded && decoded.sub) {
-        this.storeUser({ name: decoded.sub }); // ✅ this is your username
+        this.storeUser({ username: decoded.sub }); // ✅ Save username
+        console.log('User saved to localStorage:', decoded.sub);
+      } else {
+        console.warn('⚠️ decoded.sub is missing');
       }
     } catch (err) {
       console.error('❌ Failed to decode token', err);
     }
   }
+  
 
   // ✅ Get Token for Authentication
   getToken(): string | null {

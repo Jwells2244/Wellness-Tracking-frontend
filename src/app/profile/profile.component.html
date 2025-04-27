@@ -1,22 +1,21 @@
-
 <div class="profile-layout">
-    <!-- LEFT SIDEBAR -->
-    <div class="sidebar">
-      <div class="profile-photo">
-        <label for="photoUpload" class="upload-label">
-          <img alt="Profile Photo" class="clickable" />
-        </label>
-        <p>{{      userName }}</p>
-
-      </div>
-  
-      <button class="logout-btn" (click)="logout()">Logout</button>
+  <!-- LEFT SIDEBAR -->
+  <div class="sidebar">
+    <div class="profile-photo">
+      <label for="photoUpload" class="upload-label">
+        <img [src]="profileImage || 'https://via.placeholder.com/100'" alt="Profile Photo" class="clickable" />
+        <input id="photoUpload" type="file" accept="image/*" (change)="onPhotoSelected($event)" style="display: none;" />
+      </label>
+      <p>{{ userName }}</p>
     </div>
-  
-    <!-- RIGHT CONTENT AREA -->
-    <div class="main-content">
-      <div class="main-wrapper">
-        <app-visualizer></app-visualizer>
-      </div>
+
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+
+  <!-- RIGHT CONTENT AREA -->
+  <div class="main-content">
+    <div class="main-wrapper">
+      <app-visualizer></app-visualizer>
     </div>
   </div>
+</div>

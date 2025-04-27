@@ -1,10 +1,16 @@
-<div class="main-wrapper full-dark-mode" style="background-color: #0e1014; color: #ffffff;">
-  <!-- Top Section: Centered Content -->
+<div class="main-wrapper full-dark-mode">
+
+  <!-- Toast Message -->
+  <div *ngIf="showToast" class="toast-message">
+    ✅ Data Refreshed Successfully!
+  </div>
+
+  <!-- Top Section -->
   <div class="top-sections-wrapper" style="display: flex; flex-direction: column; align-items: center; gap: 2rem;">
-    
-    <!-- Fitness Rings Section -->
+
+    <!-- Fitness Rings -->
     <div class="chart-row">
-      <div class="chart-card blue" style="background-color: #1c1f26;">
+      <div class="chart-card blue">
         <canvas baseChart [data]="caloriesData" [options]="chartOptions" [type]="chartType"></canvas>
         <div class="center-label">
           <div>Calories</div>
@@ -12,65 +18,72 @@
           <div class="emoji-feedback">🔥</div>
         </div>
       </div>
-      <div class="chart-card green" style="background-color: #1c1f26;">
-        <canvas baseChart [data]="exerciseData" [options]="chartOptions" [type]="chartType"></canvas>
+
+      <div class="chart-card green">
+        <canvas baseChart [data]="distanceData" [options]="chartOptions" [type]="chartType"></canvas>
         <div class="center-label">
-          <div>Exercise</div>
-          <small>{{ exerciseMinutes }} min</small>
-          <div class="emoji-feedback">💪</div>
+          <div>Distance</div>
+          <small>{{ distance }} km</small>
+          <div class="emoji-feedback">🏃‍♂️</div>
         </div>
       </div>
-      <div class="chart-card purple" style="background-color: #1c1f26;">
-        <canvas baseChart [data]="standData" [options]="chartOptions" [type]="chartType"></canvas>
+
+      <div class="chart-card purple">
+        <canvas baseChart [data]="stepsData" [options]="chartOptions" [type]="chartType"></canvas>
         <div class="center-label">
-          <div>Stand</div>
-          <small>{{ standHours }} hrs</small>
-          <div class="emoji-feedback">🧍‍♂️</div>
+          <div>Steps</div>
+          <small>{{ stepsCount }} steps</small>
+          <div class="emoji-feedback">👟</div>
         </div>
       </div>
     </div>
 
-    <!-- Calorie Goal Input -->
-    <div class="goal-input" style="background-color: #1c1f26; color: #ffffff;">
+  
+
+    <!-- Goal Input Section -->
+    <div class="goal-input">
       <label for="calorieGoal">Set Daily Calorie Goal:</label>
       <app-goal-input (goalChanged)="updateCalorieGoal($event)"></app-goal-input>
     </div>
 
-    <!-- Progress Runner (Compact Rectangle) -->
-    <div class="runner-box" style="background-color: #1c1f26;">
-      <div class="goal-marker centered-text" style="color: #facc15">{{ caloriesBurned }} kcal</div>
-      <img class="runner centered" src="https://media.tenor.com/WBXa6Ot2nHIAAAAi/boy-running.gif" alt="running boy" />
-    </div>
-  </div>
-
-  <!-- Goal Completion Bar -->
-<div class="goal-progress-box">
-  <label>Progress toward your goal:</label>
-  <div class="progress-bar-outer">
-    <div class="progress-bar-inner" [style.width.%]="(caloriesBurned / calorieGoal) * 100"></div>
-  </div>
-  <small>{{ ((caloriesBurned / calorieGoal) * 100) | number:'1.0-0' }}% completed</small>
-</div>
-
-  <!-- Stats Charts Section -->
-  <div class="stats-section">
-    <div class="section-header">
-      <h3>{{ isDailyView ? 'Hourly Calories (Today)' : 'Weekly Overview' }}</h3>
-      <button (click)="toggleView()">→</button>
+    <!-- Progress Runner -->
+    <div class="runner-box">
+      <div class="goal-marker centered-text">{{ caloriesBurned }} kcal</div>
+      <img class="runner centered" src="https://media.tenor.com/WBXa6Ot2nHIAAAAi/boy-running.gif" alt="running-boy">
     </div>
 
-    <div class="stats-charts">
-      <div *ngIf="isDailyView" class="chart-container" style="background-color: #1c1f26;">
-        <canvas baseChart [data]="dailyCaloriesData" [options]="dailyCaloriesOptions" [type]="'line'"></canvas>
+    <!-- Progress Bar -->
+    <div class="goal-progress-box">
+      <label>Progress toward your goal:</label>
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner" [style.width.%]="(caloriesBurned / calorieGoal) * 100"></div>
       </div>
-
-      <div *ngIf="!isDailyView" class="chart-container" style="background-color: #1c1f26;">
-        <canvas baseChart [data]="weeklyBarData" [options]="weeklyBarOptions" [type]="'bar'"></canvas>
-      </div>
-
-      <div class="chart-container" style="background-color: #1c1f26;">
-        <canvas baseChart [data]="weeklyLineData" [options]="weeklyLineOptions" [type]="'line'"></canvas>
-      </div>
+      <small>{{ (caloriesBurned / calorieGoal * 100) | number:'1.0-0' }}% completed</small>
     </div>
+
+    <!-- Stats Section -->
+    <div class="stats-section">
+      <div class="section-header">
+        <h3>{{ isDailyView ? 'Hourly Calories (Today)' : 'Weekly Overview' }}</h3>
+        <button (click)="toggleView()">→</button>
+      </div>
+
+      <div class="stats-charts">
+        <div *ngIf="isDailyView" class="chart-container">
+          <canvas baseChart [data]="dailyCaloriesData" [options]="dailyCaloriesOptions" [type]="'line'"></canvas>
+        </div>
+
+        <div *ngIf="!isDailyView" class="chart-container">
+          <canvas baseChart [data]="weeklyBarData" [options]="weeklyBarOptions" [type]="'bar'"></canvas>
+        </div>
+
+        <div class="chart-container">
+          <canvas baseChart [data]="weeklyLineData" [options]="weeklyLineOptions" [type]="'line'"></canvas>
+        </div>
+      </div>
+
+    </div>
+
   </div>
+
 </div>

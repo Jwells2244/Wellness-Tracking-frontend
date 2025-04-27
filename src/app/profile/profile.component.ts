@@ -22,18 +22,49 @@ export class ProfileComponent implements OnInit {
   ) {}
   
   
+  profileImage: string | ArrayBuffer | null = null; // Holds uploaded image
 
-  ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticated();
-    if (!this.isAuthenticated) {
-      this.router.navigate(['/login']);
-      return;
-    }
-    const user = this.authService.getUser();
-    if (user) {
-      this.userName = user.username; // dynamically displays in template
-    }
+onPhotoSelected(event: Event): void {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.profileImage = reader.result;
+      localStorage.setItem('profileImage', this.profileImage as string); // ✅ Save image to localStorage
+    };
+    reader.readAsDataURL(file);
   }
+}
+
+// inside ngOnInit()
+ngOnInit(): void {
+  this.isAuthenticated = this.authService.isAuthenticated();
+  if (!this.isAuthenticated) {
+    this.router.navigate(['/login']);
+    return;
+  }
+
+  const user = this.authService.getUser();
+  console.log('Loaded user from localStorage:', user);
+
+  if (user && user.username) {
+    this.userName = user.username;
+    console.log('✅ Username set to:', this.userName);
+  } else {
+    console.warn('⚠️ No username found');
+  }
+
+  // ✅ Load saved profile image from localStorage if exists
+  const savedProfileImage = localStorage.getItem('profileImage');
+  if (savedProfileImage) {
+    this.profileImage = savedProfileImage;
+    console.log('✅ Loaded profile image from localStorage');
+  } else {
+    console.log('⚠️ No saved profile image found');
+  }
+}
+
+
   
   toggleTheme(): void {
     console.log('🌗 Toggling theme');
@@ -44,7 +75,9 @@ export class ProfileComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    localStorage.removeItem('user'); 
-    this.router.navigate(['/login']); // Make sure this route exists in app.routes.ts
+    localStorage.removeItem('user');
+ // ✅ Clear profile image on logout
+    this.router.navigate(['/login']);
   }
+  
 }

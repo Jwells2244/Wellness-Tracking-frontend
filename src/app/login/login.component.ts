@@ -28,12 +28,13 @@ export class LoginComponent {
     this.authService.login(this.username, this.password).subscribe(
       (response: any) => {
         console.log('🟢 Login response:', response);
+  
         if (response?.requires2FA) {
           sessionStorage.setItem('2fa_username', this.username);
           this.router.navigate(['/2fa-login']);
         } else if (response?.token) {
-          this.authService.storeToken(response.token);
-          this.authService.storeUser(response.user);
+          this.authService.storeToken(response.token); // ✅ Only this is needed
+  
           this.snackBar.open('✅ Login Successful!', 'Close', {
             duration: 3000,
             panelClass: ['snack-success']
@@ -55,4 +56,5 @@ export class LoginComponent {
       }
     );
   }
+  
 }
