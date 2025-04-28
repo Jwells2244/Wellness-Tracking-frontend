@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { API_BASE_URL } from '../../constants';
 
 @Component({
   selector: 'app-two-fa-setup',
@@ -22,7 +23,7 @@ export class TwoFaSetupComponent {
 
   generate2FA() {
     console.log("📨 Requesting QR with email:", this.email);
-    this.http.get<any>(`/api/2fa/generate?email=${this.email}`).subscribe({
+    this.http.get<any>(`${API_BASE_URL}/api/2fa/generate?email=${this.email}`).subscribe({
       next: (res) => {
         this.secret = res.secret;
         this.qrCodeUrl = res.qrCodeUrl;
@@ -34,14 +35,14 @@ export class TwoFaSetupComponent {
   }
 
   verifyCode() {
-    this.http.post<any>('/api/2fa/verify', {
+    this.http.post<any>(`${API_BASE_URL}/api/2fa/verify`, {
       secret: this.secret,
       code: this.totpCode
     }).subscribe({
       next: (res) => {
         if (res.valid) {
           console.log("📤 Sending email and secret to backend:", this.email, this.secret);
-          this.http.post('/api/users/set-totp-secret', {
+          this.http.post(`${API_BASE_URL}/api/users/set-totp-secret`, {
             email: this.email,
             secret: this.secret
           }, {responseType: 'text' })

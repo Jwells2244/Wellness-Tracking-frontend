@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { API_BASE_URL } from '../../constants';
 
 @Component({
   selector: 'app-two-fa-login',
@@ -25,7 +26,7 @@ export class TwoFaLoginComponent {
       return;
     }
 
-    this.http.post<any>('/api/2fa/verify-login', {
+    this.http.post<any>(`${API_BASE_URL}/api/2fa/verify-login`, {
       username,
       code: this.totpCode
     }).subscribe({
